@@ -1,25 +1,45 @@
 <?php
-	//Sample Database Connection Script
-	//Setup connection variables, such as database username and password
+	console.log("Setting up server...");
+
+	/*
+	** --- Database ---
+	*/
+	console.log("Setting up database...");
+
+
 	$hostname="localhost";
-	$username="your_dbusername";
-	$password="your_dbpassword";
-	$dbname="your_dbusername";
-	$usertable="your_tablename";
-	$yourfield = "your_field";
-	//Connect to the database
-	$connection = mysql_connect($hostname, $username, $password);
-	mysql_select_db($dbname, $connection);
-	//Setup our query
-	$query = "SELECT * FROM $usertable";
-	//Run the Query
-	$result = mysql_query($query);
-	//If the query returned results, loop through each result
-	if($result) {
-		while($row = mysql_fetch_array($result))
-		{
-			$name = $row["$yourfield"];
-			echo "Name: " . $name;
+	$username="root";
+	$password="password";
+	$dbname="camagru";
+
+
+	console.log("Connect to the database...");
+	if (!$connection = mysql_connect($hostname, $username, $password)) {
+		console.log("Could not connect to mysql.");
+		exit;
+	}
+	console.log("Connection established succesfuly.");
+
+
+	console.log("Selecting database...");
+	if (mysql_select_db($dbname, $connection)) {
+		console.log("Database selected succesfuly.");
+	} else {
+		console.log("Could not select database. Creating a new one...");
+		if (mysql_create_db($dbname, $connection) === true) {
+			if (!mysql_select_db($dbname, $connection)) {
+				console.log("New database created but could not select it.");
+				exit;
+			}
+			console.log("New database created and selected. Setting-it-up...");
+
+		} else {
+			console.log("Could not create a new database.");
+			exit;
 		}
 	}
+
+
+	//Making sure the database is up to date and apply changes if not
+	//ni
 ?>
