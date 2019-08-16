@@ -4,42 +4,23 @@
 	/*
 	** --- Database ---
 	*/
-	console.log("Setting up database...");
-
 
 	$hostname="localhost";
 	$username="root";
 	$password="password";
 	$dbname="camagru";
 
-
-	console.log("Connect to the database...");
-	if (!$connection = mysql_connect($hostname, $username, $password)) {
-		console.log("Could not connect to mysql.");
-		exit;
+	console.log("Connecting to the database..."); //ni: write
+	try {
+	    $dsn = 'mysql:host='.$hostname.';dbname='.$dbname.';charset=utf8';
+	    $db = new PDO($dsn, $username, $password);
+	} catch(PDOException $e) {
+		//ni: pop a neeter error page
+		//ni: try to setup a new db by copying one on an other server
+		//ni: send report to main log
+	    exit('Could not connect to mysql: '.$e);
 	}
 	console.log("Connection established succesfuly.");
 
-
-	console.log("Selecting database...");
-	if (mysql_select_db($dbname, $connection)) {
-		console.log("Database selected succesfuly.");
-	} else {
-		console.log("Could not select database. Creating a new one...");
-		if (mysql_create_db($dbname, $connection) === true) {
-			if (!mysql_select_db($dbname, $connection)) {
-				console.log("New database created but could not select it.");
-				exit;
-			}
-			console.log("New database created and selected. Setting-it-up...");
-
-		} else {
-			console.log("Could not create a new database.");
-			exit;
-		}
-	}
-
-
-	//Making sure the database is up to date and apply changes if not
-	//ni
+	//ni: make sure the db is up-to-date
 ?>
