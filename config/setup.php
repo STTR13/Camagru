@@ -1,18 +1,8 @@
 <?php
-	console.log("Setting up server...");
-
-	/*
-	** --- Database ---
-	*/
-
-	$hostname="localhost";
-	$username="root";
-	$password="password";
-	$dbname="camagru";
+	include 'database.php';
 
 	console.log("Connecting to the database..."); //ni: write
 	try {
-	    $dsn = 'mysql:host='.$hostname.';dbname='.$dbname.';charset=utf8';
 	    $db = new PDO($dsn, $username, $password);
 	} catch(PDOException $e) {
 		//ni: pop a neeter error page
