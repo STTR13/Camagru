@@ -1,3 +1,9 @@
+CREATE DATABASE IF NOT EXISTS `camagru`;
+USE `camagru`;
+
+
+
+
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `pseudo` VARCHAR(64),
