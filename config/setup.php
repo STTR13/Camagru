@@ -13,4 +13,5 @@
 	console.log("Connection established succesfuly.");
 
 	//ni: make sure the db is up-to-date
+	$db->exec(file_get_contents($setup_file));
 ?>

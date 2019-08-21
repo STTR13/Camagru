@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `account_verification` (
     REFERENCES `user`(`id_user`)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-)
+);
 
 
 
