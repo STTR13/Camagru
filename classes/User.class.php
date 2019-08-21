@@ -2,6 +2,7 @@
 	class User {
 		private $_id;
 		private $_pseudo;
+		private $_email;
 		private $_logged;
 
 		/*
@@ -36,14 +37,20 @@
 		/*
 		** -------------------- Set and get --------------------
 		*/
-		set_pseudo($new)
-		set_email($new)
-		set_password($old, $new, $confirm)
-		set_pref_mail_notification()
+		public function set_pseudo($new)
+		public function set_email($new)
+		public function set_password($old, $new, $confirm)
+		public function set_pref_mail_notification()
 
-		get_id()
-		get_pseudo()
-		get_email()
-		get_pref_mail_notification()
+		public function get_id()
+		public function get_pseudo()
+		public function get_email()
+		public function get_pref_mail_notification()
+
+
+		/*
+		** -------------------- Tools --------------------
+		*/
+		public function send_mail($content)
 	}
 ?>

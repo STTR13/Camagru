@@ -1,8 +1,7 @@
 <?php
 	class Picture {
 		private $_id;
-		private $_path;
-		private $_filter_path;
+		private $_filter;
 		private $_date;
 
 		/*
