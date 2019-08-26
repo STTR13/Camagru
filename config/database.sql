@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 
   `pref_mail_notifications` BOOLEAN,
 
-  PRIMARY KEY (`id_user`)
+  PRIMARY KEY (`id_user`),
+
+  UNIQUE KEY(`email`)
 );
 
 
@@ -22,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `account_verification` (
 	`account_verification_key` INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	`id_user` INT UNSIGNED,
 
-	PRIMARY KEY (`account_verification_key`),
+	UNIQUE KEY (`account_verification_key`, `id_user`),
 
 	FOREIGN KEY (`id_user`)
     REFERENCES `user`(`id_user`)
@@ -80,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `like` (
   `id_session` INT UNSIGNED,
   `id_picture` INT UNSIGNED,
 
-  PRIMARY KEY (`id_session`, `id_picture`),
+  UNIQUE KEY (`id_session`, `id_picture`),
 
   FOREIGN KEY (`id_session`)
   REFERENCES `session`(`id_session`)
