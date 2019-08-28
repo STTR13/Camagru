@@ -26,7 +26,8 @@
 		$columns is a string listing the output needed
 		$where is an array(culumn=>value_needed)
 		*/
-		private static function query_user($columns, $where) {
+		private static function query_user($columns, $where)
+		{
 			// form query
 			$query = "SELECT $columns FROM user WHERE";
 			foreach ($where as $key => $value) {
@@ -55,9 +56,49 @@
 			return $statement->fetch(PDO::FECH_ASSOC);
 		}
 
+		/*\
+		$content = array(<<column>> => <<value>>)
+		*/
+		private static function insert_user($content)
+		{
+			// form query
+			$columns = '';
+			$values = '';
+			foreach ($content as $key => $value) {
+				$columns .= "$key, ";
+				$values .= ":$key, ";
+			}
+			$query = 'INSERT INTO user (';
+			$query .= rtrim($columns, ', ');
+			$query .= ') VALUES (';
+			$query .= rtrim($values, ', ');
+			$query .= '); SELECT LAST_INSERT_ID() AS `id_user`';
+
+			// prepare
+			try {
+				$statement = $db->prepare($query);
+			} catch (PDOException $e) {
+				return FALSE; //ni: bether exception handeling
+			}
+
+			// bind values
+			foreach ($content as $key => $value) {
+				if ($statement->bindValue(":$key", $value) === FALSE) {
+					return FALSE;
+				}
+			}
+
+			// execute statement and return
+			if ($statement->execute() === FALSE) {
+				return FALSE;
+			}
+			return $statement->fetch(PDO::FECH_ASSOC);
+		}
+
 		private static function hash_password($password) //ni
 
-		private function __construct1($id) {
+		private function __construct1($id)
+		{
 			// test parameters validity
 			if (!__CLASS__::is_valid_id($id)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Parameter has invalid content.\n", 2);
@@ -76,7 +117,8 @@
 			$this->_logged = FALSE;
 		}
 
-		private function __construct2($email, $password) { //ni: hash password and cookie management
+		private function __construct2($email, $password)
+		{ //ni: cookie management
 			// test parameters validity
 			if (!__CLASS__::is_valid_email($email) || !__CLASS__::is_valid_password($password)) {
 				//ni: need more clarity on the reasons the parameters are wrong
@@ -99,7 +141,8 @@
 			$this->_logged = TRUE;
 		}
 
-		private function __construct4($pseudo, $email, $password, $confirm_pw) {
+		private function __construct4($pseudo, $email, $password, $confirm_pw)
+		{
 			// test parameters validity
 			if (strcmp($password, $confirm_pw) !== 0 ||
 				!__CLASS__::is_valid_pseudo($pseudo) ||
@@ -109,11 +152,17 @@
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". At least one parameter have invalid content.\n", 1);
 			}
 
+			// make sure email isn't in use
+			//ni
+
 			// hashing $password
 			$password = __CLASS__::hash_password($password);
 
-			// adding new user to database, make sure email isn't in use and pull the id_user
-			//ni
+			// adding new user to database and pull the id_user
+			$row = insert_user(array('pseudo' => $pseudo, 'email' => $email, 'password' => $password));
+			if ($row === FALSE){
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
+			}
 
 			// set object properties
 			$this->_id = $row['id_user'];
@@ -122,8 +171,15 @@
 			$this->_logged = TRUE;
 		}
 
+
+		/*
+		** -------------------- Magic methods --------------------
+		*/
 		public function __destruct()
-		public function __toString() {return get_pseudo();}
+		public function __toString()
+		{
+			return get_pseudo();
+		}
 
 
 		/*
@@ -151,13 +207,15 @@
 		** -------------------- Tools --------------------
 		*/
 		public function send_mail($content)
-		public static function is_valid_email($email) {
+		public static function is_valid_email($email)
+		{
 			$patern = "/\A(?=[a-z0-9@.!#$%&'*+\/=?^_`{|}~-]{6,254}\z)(?=[a-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\z/"
 			return preg_match($patern, $email) ? TRUE : FALSE;
 		}
 		public static function is_valid_pseudo($pseudo)
 		public static function is_valid_password($password)
-		public static function is_valid_id($id) {
+		public static function is_valid_id($id)
+		{
 			return preg_match("/^[1-9][0-9]*$/", $id);
 		}
 	}
