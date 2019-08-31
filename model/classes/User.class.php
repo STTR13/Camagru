@@ -6,6 +6,7 @@
 		private $_pseudo;
 		private $_email;
 		private $_logged;
+		private $_db;
 
 		/*
 		** -------------------- Construct --------------------
@@ -22,91 +23,24 @@
 			}
 		}
 
-		/*
-		$columns is a string listing the output needed
-		$where is an array(culumn=>value_needed)
-		*/
-		private static function query_user($columns, $where)
+		private static function hash_password($password)
 		{
-			// form query
-			$query = "SELECT $columns FROM user WHERE";
-			foreach ($where as $key => $value) {
-				$qwery .= " $key = :$key";
-			}
-			$qwery .= ';';
-
-			// prepare
-			try {
-				$statement = $db->prepare($query);
-			} catch (PDOException $e) {
-				return FALSE; //ni: bether exception handeling
-			}
-
-			// bind values
-			foreach ($where as $key => $value) {
-				if ($statement->bindValue(":$key", $value) === FALSE) {
-					return FALSE;
-				}
-			}
-
-			// execute statement and return
-			if ($statement->execute() === FALSE) {
-				return FALSE;
-			}
-			return $statement->fetch(PDO::FECH_ASSOC);
+			return $password; //ni: need real hash
 		}
 
-		/*\
-		$content = array(<<column>> => <<value>>)
-		*/
-		private static function insert_user($content)
-		{
-			// form query
-			$columns = '';
-			$values = '';
-			foreach ($content as $key => $value) {
-				$columns .= "$key, ";
-				$values .= ":$key, ";
-			}
-			$query = 'INSERT INTO user (';
-			$query .= rtrim($columns, ', ');
-			$query .= ') VALUES (';
-			$query .= rtrim($values, ', ');
-			$query .= '); SELECT LAST_INSERT_ID() AS `id_user`';
-
-			// prepare
-			try {
-				$statement = $db->prepare($query);
-			} catch (PDOException $e) {
-				return FALSE; //ni: bether exception handeling
-			}
-
-			// bind values
-			foreach ($content as $key => $value) {
-				if ($statement->bindValue(":$key", $value) === FALSE) {
-					return FALSE;
-				}
-			}
-
-			// execute statement and return
-			if ($statement->execute() === FALSE) {
-				return FALSE;
-			}
-			return $statement->fetch(PDO::FECH_ASSOC);
-		}
-
-		private static function hash_password($password) //ni
-
-		private function __construct1($id)
+		private function __construct2($id, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_id($id)) {
+			if (!__CLASS__::is_valid_id($id) || !Database::is_valid($db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Parameter has invalid content.\n", 2);
 			}
 
 			// query from database
-			$row = __CLASS__::query_user('pseudo, email', array('id_user' => $id));
-			if (!array_key_exists('pseudo', $row) || !array_key_exists('email', $row)) {
+			$query = "SELECT pseudo, email FROM user WHERE id_user = :id;";
+			if ($db->query($query, array(':id' => $id))) {
+				$row = $db->fetch();
+			}
+			if (!isset($row)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
 			}
 
@@ -115,12 +49,13 @@
 			$this->_pseudo = $row['pseudo'];
 			$this->_email = $row['email'];
 			$this->_logged = FALSE;
+			$this->_db = $db;
 		}
 
-		private function __construct2($email, $password)
+		private function __construct3($email, $password, $db)
 		{ //ni: cookie management
 			// test parameters validity
-			if (!__CLASS__::is_valid_email($email) || !__CLASS__::is_valid_password($password)) {
+			if (!__CLASS__::is_valid_email($email) || !__CLASS__::is_valid_password($password) || !Database::is_valid($db)) {
 				//ni: need more clarity on the reasons the parameters are wrong
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". At least one parameter have invalid content.\n", 1);
 			}
@@ -129,39 +64,58 @@
 			$password = __CLASS__::hash_password($password);
 
 			// query from database
-			$row = __CLASS__::query_user('id_user, pseudo', array('email' => $email, 'password' => $password));
-			if (!array_key_exists('id_user', $row) || !array_key_exists('pseudo', $row)) {
+			$query = 'SELECT id_user, pseudo FROM user WHERE email = :em AND password = :pw;';
+			if ($db->query($query, array(':em' => $email, ':pw' => $password))) {
+				$row = $db->fetch();
+			}
+			if (!isset($row)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
 			}
+
+			// go through email account verification
+			//ni
 
 			// set object properties
 			$this->_id = $row['id_user'];
 			$this->_pseudo = $row['pseudo'];
 			$this->_email = $email;
 			$this->_logged = TRUE;
+			$this->_db = $db;
 		}
 
-		private function __construct4($pseudo, $email, $password, $confirm_pw)
+		private function __construct4($pseudo, $email, $password, $db)
 		{
 			// test parameters validity
-			if (strcmp($password, $confirm_pw) !== 0 ||
-				!__CLASS__::is_valid_pseudo($pseudo) ||
+			if (!__CLASS__::is_valid_pseudo($pseudo) ||
 				!__CLASS__::is_valid_email($email) ||
-				!__CLASS__::is_valid_password($password)) {
+				!__CLASS__::is_valid_password($password) ||
+				!Database::is_valid($db)) {
 				//ni: need more clarity on witch parameters are wrong
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". At least one parameter have invalid content.\n", 1);
 			}
 
 			// make sure email isn't in use
-			//ni
+			$query = 'SELECT id_user FROM user WHERE email = :em;';
+			if ($db->query($query, array(':em' => $email))) {
+				$row = $db->fetch();
+			}
+			if (!isset($row)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ".\n", 1);
+			}
+			if (array_key_exists('id_user', $row)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email alredy in use.\n", 2);
+			}
 
 			// hashing $password
 			$password = __CLASS__::hash_password($password);
 
 			// adding new user to database and pull the id_user
-			$row = insert_user(array('pseudo' => $pseudo, 'email' => $email, 'password' => $password));
-			if ($row === FALSE){
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
+			$query = 'INSERT INTO user (pseudo, email, password) VALUES (:ps, :em, :pw;); SELECT LAST_INSERT_ID() AS `id_user`;';
+			if ($db->query($query, array(':ps' => $pseudo, ':em' => $email, ':pw' => $password))) {
+				$row = $db->fetch();
+			}
+			if (!isset($row)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ".\n", 1);
 			}
 
 			// set object properties
@@ -169,6 +123,7 @@
 			$this->_pseudo = $pseudo;
 			$this->_email = $email;
 			$this->_logged = TRUE;
+			$this->_db = $db;
 		}
 
 

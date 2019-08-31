@@ -1,16 +1,22 @@
 <?php
 	class Database {
 		private $_db;
+		private $_statement;
 
 		public function __construct($dsn, $username, $password)
 		{
 			try {
-			    $this->_db = new PDO($dsn, $username, $password, array(PDO::ATTR_PERSISTENT => TRUE));
+			    $this->_db = new PDO(
+					$dsn,
+					$username,
+					$password,
+					array(PDO::ATTR_PERSISTENT => TRUE, PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)
+				);
 			} catch(PDOException $e) {
 				//ni: pop a neeter error page
 				//ni: try to setup a new db by copying one on an other server
 				//ni: send report to main log
-			    exit('Could not connect to mysql: '.$e);
+				exit;
 			}
 		}
 
@@ -22,28 +28,38 @@
 		{
 			// prepare
 			try {
-				$statement = $this->_db->prepare($query);
+				$this->_statement = $this->_db->prepare($query);
 			} catch (PDOException $e) {
 				return FALSE; //ni: bether exception handeling
 			}
 
 			// bind values
 			foreach ($bindValues as $key => $value) {
-				if ($statement->bindValue(":$key", $value) === FALSE) {
+				if ($this->_statement->bindValue(":$key", $value) === FALSE) {
 					return FALSE;
 				}
 			}
 
 			// execute statement and return
-			if ($statement->execute() === FALSE) {
+			if ($this->_statement->execute() === FALSE) {
 				return FALSE;
 			}
-			return $statement;
+			return TRUE;
 		}
 
 		public function exec($sql)
 		{
 			return $this->_db->exec($sql);
+		}
+
+		public function fetch()
+		{
+			return $statement->fetch(PDO::FECH_ASSOC);
+		}
+
+		public static function is_valid()
+		{
+			return true; //ni
 		}
 	}
 ?>
