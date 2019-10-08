@@ -1,11 +1,11 @@
 <?php
-	require_once '../model/classes/Database.class.php';
+	require_once '../classes/Database.class.php';
 
 	$hostname = "127.0.0.1";
 	$username = "root";
 	$password = "password";
 	$dsn = 'mysql:host='.$hostname.';port=3306;charset=utf8';
-	$setup_file = '../config/database.sql';
+	$setup_file = '../../config/database.sql';
 	$dumb_data_file = 'dumb_data.sql';
 
 	$verbose = TRUE;
