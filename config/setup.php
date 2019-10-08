@@ -13,5 +13,6 @@
 	console.log("Connection established succesfuly.");
 
 	//ni: make sure the db is up-to-date
+	$db->exec("CREATE DATABASE IF NOT EXISTS `camagru`; USE `camagru`;");
 	$db->exec(file_get_contents($setup_file));
 ?>

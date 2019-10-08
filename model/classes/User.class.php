@@ -15,11 +15,11 @@
 		{
 			$a = func_get_args();
 	        $i = func_num_args();
-	        if (method_exists($this,$f='__construct'.$i)) {
+	        if (method_exists($this, $f = '__construct' . $i)) {
 	            call_user_func_array(array($this,$f),$a);
 	        }
 			else {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Wrong amount of parameters ($i).\n", 2);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Wrong amount of parameters ($i).\n", 0);
 			}
 		}
 
@@ -31,17 +31,17 @@
 		private function __construct2($id, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_id($id) || !Database::is_valid($db)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Parameter has invalid content.\n", 2);
+			if (!__CLASS__::is_valid_id($id)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.\n", 21);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 22);
 			}
 
 			// query from database
 			$query = "SELECT pseudo, email FROM user WHERE id_user = :id;";
 			if ($db->query($query, array(':id' => $id))) {
 				$row = $db->fetch();
-			}
-			if (!isset($row)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
 			}
 
 			// set object properties
@@ -55,9 +55,14 @@
 		private function __construct3($email, $password, $db)
 		{ //ni: cookie management
 			// test parameters validity
-			if (!__CLASS__::is_valid_email($email) || !__CLASS__::is_valid_password($password) || !Database::is_valid($db)) {
-				//ni: need more clarity on the reasons the parameters are wrong
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". At least one parameter have invalid content.\n", 1);
+			if (!__CLASS__::is_valid_email($email)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 31);
+			}
+			if (!__CLASS__::is_valid_password($password)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 32);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 33);
 			}
 
 			// hashing $password
@@ -69,7 +74,7 @@
 				$row = $db->fetch();
 			}
 			if (!isset($row)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Id not found in database.\n", 1);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". User-password combination not found in database.\n", 30);
 			}
 
 			// go through email account verification
@@ -86,12 +91,17 @@
 		private function __construct4($pseudo, $email, $password, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_pseudo($pseudo) ||
-				!__CLASS__::is_valid_email($email) ||
-				!__CLASS__::is_valid_password($password) ||
-				!Database::is_valid($db)) {
-				//ni: need more clarity on witch parameters are wrong
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". At least one parameter have invalid content.\n", 1);
+			if (!__CLASS__::is_valid_pseudo($pseudo)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid pseudo.\n", 41);
+			}
+			if (!__CLASS__::is_valid_email($email)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 42);
+			}
+			if (!__CLASS__::is_valid_password($password)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 43);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 44);
 			}
 
 			// make sure email isn't in use
@@ -100,10 +110,10 @@
 				$row = $db->fetch();
 			}
 			if (!isset($row)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ".\n", 1);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Query failed.\n", );
 			}
 			if (array_key_exists('id_user', $row)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email alredy in use.\n", 2);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email alredy in use.\n", 42);
 			}
 
 			// hashing $password
