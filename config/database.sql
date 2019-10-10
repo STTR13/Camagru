@@ -29,25 +29,15 @@ CREATE TABLE IF NOT EXISTS `account_verification` (
 
 
 
-CREATE TABLE IF NOT EXISTS `session` (
-  `id_session` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+CREATE TABLE IF NOT EXISTS `cookie` (
+  `id_cookie` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `id_user` INT UNSIGNED,
-  `start` DATETIME,
-  `end` DATETIME,
+  `creation_date` DATETIME NOT NULL DEFAULT NOW(),
 
-  `http_user_agent` TEXT,
-  `remote_addr` VARCHAR(39),
-  `id_last_session` INT UNSIGNED,
-
-  PRIMARY KEY (`id_session`),
+  PRIMARY KEY (`id_cookie`),
 
   FOREIGN KEY (`id_user`)
   REFERENCES `user`(`id_user`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-
-  FOREIGN KEY (`id_last_session`)
-  REFERENCES `session`(`id_session`)
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );
@@ -57,14 +47,14 @@ CREATE TABLE IF NOT EXISTS `session` (
 
 CREATE TABLE IF NOT EXISTS `picture` (
   `id_picture` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  `id_session` INT UNSIGNED,
-  `date` DATETIME,
+  `id_user` INT UNSIGNED,
+  `date` DATETIME NOT NULL DEFAULT NOW(),
   `filter` INT UNSIGNED,
 
   PRIMARY KEY (`id_picture`),
 
-  FOREIGN KEY (`id_session`)
-  REFERENCES `session`(`id_session`)
+  FOREIGN KEY (`id_user`)
+  REFERENCES `user`(`id_user`)
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );
@@ -73,13 +63,14 @@ CREATE TABLE IF NOT EXISTS `picture` (
 
 
 CREATE TABLE IF NOT EXISTS `like` (
-  `id_session` INT UNSIGNED,
+  `id_user` INT UNSIGNED,
   `id_picture` INT UNSIGNED,
+  `date` DATETIME NOT NULL DEFAULT NOW(),
 
-  UNIQUE KEY (`id_session`, `id_picture`),
+  UNIQUE KEY (`id_user`, `id_picture`),
 
-  FOREIGN KEY (`id_session`)
-  REFERENCES `session`(`id_session`)
+  FOREIGN KEY (`id_user`)
+  REFERENCES `user`(`id_user`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
 
@@ -94,16 +85,16 @@ CREATE TABLE IF NOT EXISTS `like` (
 
 CREATE TABLE IF NOT EXISTS `comment` (
   `id_comment` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  `id_session` INT UNSIGNED,
-  `id_picture` INT UNSIGNED,
+  `id_user` INT UNSIGNED,
+  `id_picture` INT UNSIGNED NOT NULL,
   `id_respond_to` INT UNSIGNED,
-  `date` DATETIME,
+  `date` DATETIME NOT NULL DEFAULT NOW(),
   `content` VARCHAR(255),
 
   PRIMARY KEY (`id_comment`),
 
-  FOREIGN KEY (`id_session`)
-  REFERENCES `session`(`id_session`)
+  FOREIGN KEY (`id_user`)
+  REFERENCES `user`(`id_user`)
   ON DELETE CASCADE
   ON UPDATE CASCADE,
 
