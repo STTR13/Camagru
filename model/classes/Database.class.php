@@ -15,10 +15,7 @@
 					array(PDO::ATTR_PERSISTENT => TRUE, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
 				);
 			} catch(PDOException $e) {
-				//ni: pop a neeter error page
-				//ni: try to setup a new db by copying one on an other server
-				//ni: send report to main log
-				exit($e);
+				throw new DatabaseException("Failed constructing " . __CLASS__ . ". PDO instanciation failed:\n" . $e->getMessage());
 			}
 		}
 
@@ -32,23 +29,19 @@
 			try {
 				$this->_statement = $this->_db->prepare($query);
 			} catch (PDOException $e) {
-				//verbose("Invalid query.\n");
-				return FALSE; //ni: bether exception handeling
+				throw new DatabaseException("Failed querying " . __CLASS__ . ". Invalid query:\n" . $e->getMessage());
 			}
 
 			// bind values
 			foreach ($bindValues as $key => $value) {
 				if ($this->_statement->bindValue($key, $value) === FALSE) {
-					//verbose("Incorect bindValues.\n");
-					return FALSE;
+					throw new DatabaseException("Failed querying " . __CLASS__ . ". Invalid bindValue(s):\n" . $e->getMessage());
 				}
 			}
 			// execute statement and return
 			if ($this->_statement->execute() === FALSE) {
-				//verbose("Execution error.\n");
-				return FALSE;
+				throw new DatabaseException("Failed querying " . __CLASS__ . ". Execution failed:\n" . $e->getMessage());
 			}
-			return TRUE;
 		}
 
 		public function exec($sql)
@@ -61,9 +54,9 @@
 			return $this->_statement->fetch(PDO::FETCH_ASSOC);
 		}
 
-		public static function is_valid()
+		public static function is_valid(Database $db)
 		{
-			return true; //ni
+			return gettype($db) === 'object' && get_class($db) === __CLASS__ && $db->_db != null;
 		}
 	}
 ?>
