@@ -218,7 +218,12 @@
 		}
 		public static function is_valid_password(string $password)
 		{
-			$patern = "/(?s)^.{8,128}$/";
+			$patern = "/(?s)^.{8,64}$/";
+			return preg_match($patern, $pseudo) ? TRUE : FALSE;
+		}
+		private static function is_valid_hashed_password($password)
+		{
+			$patern = "/(?s)^.{128}$/"; //ni: related to hash_password()
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
 		private static function is_valid_id($id_cookie)
