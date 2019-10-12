@@ -5,7 +5,6 @@
 		private $_id;
 		private $_pseudo;
 		private $_email;
-		private $_logged; //ni: other organisation for logged-in management
 		private $_db;
 
 		/*
@@ -23,10 +22,10 @@
 			}
 		}
 
-		/*private function __construct2($id, $db)
+		private function __construct2($id_cookie, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_id($id)) {
+			if (!__CLASS__::is_valid_id($id_cookie)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.\n", 21);
 			}
 			if (!Database::is_valid($db)) {
@@ -34,21 +33,19 @@
 			}
 
 			// query from database
-			$query = "SELECT pseudo, email FROM user WHERE id_user = :id;";
-			$db->query($query, array(':id' => $id));
+			$query = "SELECT user.id_user, pseudo, email FROM user JOIN cookie ON cookie.id_user = user.id_user WHERE id_cookie = :idc;";
+			$db->query($query, array(':idc' => $id_cookie));
 			$row = $db->fetch();
+			if ($row === false) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". id_cookie not found in database.\n", 30);
+			}
 
 			// set object properties
-			$this->_id = $id;
+			$this->_id = $row['id_user'];
 			$this->_pseudo = $row['pseudo'];
 			$this->_email = $row['email'];
-			$this->_logged = FALSE;
 			$this->_db = $db;
 		}
-		private static function is_valid_id($id)
-		{
-			return preg_match("/^[1-9][0-9]*$/", $id) ? TRUE : FALSE;
-		}*/
 
 		private function __construct3($email, $password, $db)
 		{ //ni: cookie management
@@ -81,7 +78,6 @@
 			$this->_id = $row['id_user'];
 			$this->_pseudo = $row['pseudo'];
 			$this->_email = $email;
-			$this->_logged = TRUE;
 			$this->_db = $db;
 		}
 
@@ -124,7 +120,6 @@
 			$this->_id = $row['id_user'];
 			$this->_pseudo = $pseudo;
 			$this->_email = $email;
-			$this->_logged = TRUE;
 			$this->_db = $db;
 
 			// send verification mail
@@ -241,6 +236,10 @@
 		{
 			$patern = "/(?s)^.{8,128}$/";
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
+		}
+		private static function is_valid_id($id_cookie)
+		{
+			return preg_match("/^[1-9][0-9]*$/", $id_cookie) ? TRUE : FALSE;
 		}
 
 		/*
