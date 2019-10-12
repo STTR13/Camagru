@@ -1,19 +1,5 @@
 <?php
-	require_once '../classes/Database.class.php';
-
-	$hostname = "127.0.0.1";
-	$username = "root";
-	$password = "password";
-	$dsn = 'mysql:host='.$hostname.';port=3306;charset=utf8';
-	$setup_file = '../../config/database.sql';
-	$dumb_data_file = 'dumb_data.sql';
-
-	$verbose = TRUE;
-
-	$db = new Database($dsn, $username, $password);
-	$db->exec("CREATE DATABASE IF NOT EXISTS `test`; USE `test`;");
-	$db->exec(file_get_contents($setup_file));
-	$db->exec(file_get_contents($dumb_data_file)); //run only on first testing
+	require_once 'initialise.tests.php';
 
 	// valid query 1
 	$query = 'SELECT email FROM `user` WHERE `pseudo` = :p';
@@ -58,6 +44,4 @@
 	if ($exception !== true) {
 		echo "Invalid query 2 FAILED\n";
 	}
-
-	$db->exec("DROP DATABASE `test`;");
 ?>
