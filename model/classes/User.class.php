@@ -47,13 +47,13 @@
 			$this->_db = $db;
 		}
 
-		private function __construct3($email, $password, $db)
+		private function __construct3($email, $hashed_password, $db)
 		{
 			// test parameters validity
 			if (!__CLASS__::is_valid_email($email)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 31);
 			}
-			if (!__CLASS__::is_valid_password($password)) {
+			if (!__CLASS__::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 32);
 			}
 			if (!Database::is_valid($db)) {
@@ -62,7 +62,7 @@
 
 			// query from database
 			$query = 'SELECT id_user, pseudo FROM user WHERE email = :em AND password = :pw;';
-			$db->query($query, array(':em' => $email, ':pw' => $password));
+			$db->query($query, array(':em' => $email, ':pw' => $hashed_password));
 			$row = $db->fetch();
 			if ($row === false) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". User-password combination not found in database.\n", 30);
@@ -75,7 +75,7 @@
 			$this->_db = $db;
 		}
 
-		private function __construct4($pseudo, $email, $password, $db)
+		private function __construct4($pseudo, $email, $hashed_password, $db)
 		{
 			// test parameters validity
 			if (!__CLASS__::is_valid_pseudo($pseudo)) {
@@ -84,7 +84,7 @@
 			if (!__CLASS__::is_valid_email($email)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 42);
 			}
-			if (!__CLASS__::is_valid_password($password)) {
+			if (!__CLASS__::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 43);
 			}
 			if (!Database::is_valid($db)) {
@@ -96,7 +96,7 @@
 
 			// adding new user to database and pull the id_user
 			$query = 'INSERT INTO user (pseudo, email, password) VALUES (:ps, :em, :pw;); SELECT LAST_INSERT_ID() AS `id_user`;';
-			$db->query($query, array(':ps' => $pseudo, ':em' => $email, ':pw' => $password));
+			$db->query($query, array(':ps' => $pseudo, ':em' => $email, ':pw' => $hashed_password));
 			$row = $db->fetch();
 			if ($row === false) {
 				throw new DatabaseException("Failed constructing " . __CLASS__ . ". Id not pulled from db.\n");
