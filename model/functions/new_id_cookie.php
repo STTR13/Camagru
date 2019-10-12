@@ -1,6 +1,6 @@
 <?php
 	// create a cookie wich values is an cookie.id_cookie extracted from the database
-	public function new_id_cookie($db, string $cookie_name, string $domain, int $expires = time() + (60 * 60 * 24 * 30 * 6), string $path = "/", bool $secure = FALSE)
+	function new_id_cookie($db, $cookie_name, $domain, $expires = 2592000, $path = "/", $secure = FALSE)
 	{
 		if (!Database::is_valid($db)) {
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.\n", 1);
@@ -14,7 +14,7 @@
 		}
 
 		// setcookie and error management
-		if (!setcookie($cookie_name, $row['id_cookie'], $expires, $path, $domain, $secure)) {
+		if (!setcookie($cookie_name, $row['id_cookie'], $expires + time(), $path, $domain, $secure)) {
 			$query = 'DELETE FROM cookie WHERE id_cookie = :id;';
 			$modified_row_count = $db->exec($query, array(':id' => $row['id_cookie']));
 			if ($modified_row_count !== 1) {
