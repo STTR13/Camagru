@@ -1,5 +1,5 @@
 <?php
-	//require_once "verbose.php";
+	require_once "../functions/verbose.php";
 
 	class Database {
 		private $_db;
@@ -7,6 +7,8 @@
 
 		public function __construct($dsn, $username, $password)
 		{
+			verbose("Database::__construct(" . $dsn . ", " . $username . ", " . $password . ")");
+
 			try {
 			    $this->_db = new PDO(
 					$dsn,
@@ -19,12 +21,17 @@
 			}
 		}
 
-		public function __destruct() {
+		public function __destruct()
+		{
+			verbose("Database::__destruct()");
+
 			$this->_db = null;
 		}
 
 		public function query($query, $bindValues)
 		{
+			verbose("Database::query(" . $query . ", bv_array)\nbv_array: " . json_encode($bindValues) . "\n");
+
 			// prepare
 			try {
 				$this->_statement = $this->_db->prepare($query);
@@ -46,7 +53,9 @@
 
 		public function exec($sql)
 		{
-			return $this->_db->exec($sql);
+			verbose("Database::exec(" . $sql . ")\n");
+
+			return rverbose($this->_db->exec($sql));
 		}
 
 		public function fetch()

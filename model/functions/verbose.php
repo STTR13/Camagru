@@ -1,10 +1,17 @@
 <?php
 	$verbose = false;
 
-	public function verbose($txt)
+	function verbose($txt)
 	{
 		if ($verbose) {
 			printf($txt);
 		}
+	}
+	function rverbose($txt)
+	{
+		if ($verbose) {
+			printf("return: `" . $txt . "`\n");
+		}
+		return $txt;
 	}
 ?>
