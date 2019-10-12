@@ -48,7 +48,7 @@
 		}
 
 		private function __construct3($email, $password, $db)
-		{ //ni: cookie management
+		{
 			// test parameters validity
 			if (!__CLASS__::is_valid_email($email)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 31);
@@ -60,9 +60,6 @@
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 33);
 			}
 
-			// hashing $password
-			$password = __CLASS__::hash_password($password);
-
 			// query from database
 			$query = 'SELECT id_user, pseudo FROM user WHERE email = :em AND password = :pw;';
 			$db->query($query, array(':em' => $email, ':pw' => $password));
@@ -70,9 +67,6 @@
 			if ($row === false) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". User-password combination not found in database.\n", 30);
 			}
-
-			// go through email account verification
-			//ni
 
 			// set object properties
 			$this->_id = $row['id_user'];
@@ -96,17 +90,9 @@
 			if (!Database::is_valid($db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 44);
 			}
-
-			// make sure email isn't in use
-			$query = 'SELECT id_user FROM user WHERE email = :em;';
-			$db->query($query, array(':em' => $email));
-			$row = $db->fetch();
-			if ($row !== false) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email alredy in use.\n", 45);
+			if (!__CLASS__::is_email_in_use($email, $db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email in use.\n", 42);
 			}
-
-			// hashing $password
-			$password = __CLASS__::hash_password($password);
 
 			// adding new user to database and pull the id_user
 			$query = 'INSERT INTO user (pseudo, email, password) VALUES (:ps, :em, :pw;); SELECT LAST_INSERT_ID() AS `id_user`;';
@@ -121,16 +107,18 @@
 			$this->_pseudo = $pseudo;
 			$this->_email = $email;
 			$this->_db = $db;
-
-			// send verification mail
-			$this->send_account_verification_request();
 		}
 
 
 		/*
 		** -------------------- Magic methods --------------------
 		*/
-		public function __destruct();
+		public function __destruct() {
+			$this->_id = null;
+			$this->_pseudo = null;
+			$this->_email = null;
+			$this->_db = null;
+		}
 		public function __toString()
 		{
 			return get_pseudo();
@@ -183,10 +171,6 @@
 				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
 			}
 
-			// hashing pw
-			$old = __CLASS__::hash_password($old);
-			$new = __CLASS__::hash_password($new);
-
 			// pulling old pw from db and testing if it is the same as param
 			$query = 'SELECT password FROM user WHERE id_user = :id;';
 			$db->query($query, array(':id' => $email));
@@ -204,7 +188,7 @@
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
 		}
-		public function set_pref_mail_notification() //ni
+		//public function set_pref_mail_notification() //ni
 
 		/*
 		** -------------------- Get --------------------
@@ -217,38 +201,66 @@
 		{
 			return $this->_email;
 		}
-		public function get_pref_mail_notification() //ni
+		//public function get_pref_mail_notification() //ni
 
 		/*
 		** -------------------- Is valid --------------------
 		*/
-		public static function is_valid_email($email)
+		public static function is_valid_email(string $email)
 		{
 			$patern = "/\A(?=[a-z0-9@.!#$%&'*+\/=?^_`{|}~-]{6,254}\z)(?=[a-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\z/"
 			return preg_match($patern, $email) ? TRUE : FALSE;
 		}
-		public static function is_valid_pseudo($pseudo)
+		public static function is_valid_pseudo(string $pseudo)
 		{
 			$patern = "/^[a-zA-Z0-9]{6,64}$/";
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
-		public static function is_valid_password($password)
+		public static function is_valid_password(string $password)
 		{
 			$patern = "/(?s)^.{8,128}$/";
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
 		private static function is_valid_id($id_cookie)
 		{
-			return preg_match("/^[1-9][0-9]*$/", $id_cookie) ? TRUE : FALSE;
+			if (gettype($id_cookie) === 'integer' && $id_cookie > 0) {
+				return TRUE;
+			}
+			if (gettype($id_cookie) === 'string' && preg_match("/^[1-9][0-9]*$/", $id_cookie)) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+		public static function is_email_in_use(string $email, $db) {
+			if (!__CLASS__::is_valid_email($email)) {
+				return FALSE;
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid db object.\n", 2);
+			}
+
+			$query = 'SELECT id_user FROM user WHERE email = :em;';
+			$db->query($query, array(':em' => $email));
+			$row = $db->fetch();
+			if ($row !== false) {
+				return TRUE;
+			}
+			return FALSE;
 		}
 
 		/*
 		** -------------------- Tools --------------------
 		*/
-		public function send_mail($content)
-		private static function hash_password($password)
-		{
-			return $password; //ni: need real hash
+		private function link_cookie($id_cookie) {
+			if (!__CLASS__::is_valid_id($id_cookie)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid id_cookie.\n", 1);
+			}
+
+			// update db
+			$query = 'UPDATE cookie SET id_user = :idu WHERE id_cookie = :idc;';
+			if (($modified_row_count = $db->exec($query, array(':idu' => $this->_id, ':idc' => $id_cookie))) !== 1) {
+				throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.\n");
+			}
 		}
 
 		/*
