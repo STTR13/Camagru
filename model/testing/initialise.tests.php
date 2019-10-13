@@ -1,4 +1,5 @@
 <?php
+	require_once "../functions/verbose.php";
 	require_once '../classes/Database.class.php';
 
 	$hostname = "127.0.0.1";
