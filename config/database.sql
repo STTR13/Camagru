@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `user` (
   `id_user` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  `pseudo` VARCHAR(64),
-  `email` VARCHAR(254),
-  `password` VARCHAR(128),
+  `pseudo` VARCHAR(64) NOT NULL,
+  `email` VARCHAR(254) NOT NULL,
+  `password` CHAR(128) NOT NULL,
 
-  `pref_mail_notifications` BOOLEAN,
+  `pref_mail_notifications` BOOLEAN DEFAULT true,
 
   PRIMARY KEY (`id_user`),
 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 CREATE TABLE IF NOT EXISTS `account_verification` (
 	`account_verification_key` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	`id_user` INT UNSIGNED,
+	`id_user` INT UNSIGNED NOT NULL,
 
 	UNIQUE KEY (`account_verification_key`, `id_user`),
 
@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `picture` (
   `id_picture` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `id_user` INT UNSIGNED,
   `date` DATETIME NOT NULL DEFAULT NOW(),
-  `filter` INT UNSIGNED,
 
   PRIMARY KEY (`id_picture`),
 
