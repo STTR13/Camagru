@@ -4,7 +4,7 @@
 	require_once "../exceptions/CookieException.class.php";
 
 	// create a cookie wich values is an cookie.id_cookie extracted from the database
-	function new_id_cookie($db, $cookie_name, $domain, $expires = 2592000, $path = "/", $secure = FALSE)
+	function new_id_cookie($db, $cookie_name, $domain = "", $expires = 2592000, $path = "/", $secure = FALSE)
 	{
 		if (!Database::is_valid($db)) {
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.\n", 1);
@@ -27,7 +27,9 @@
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Failed deleting cookie from db after failing to create it on the client side. ". $modified_row_count . " rows have been modified in the database on delete command.\n");
 			}
+
 			throw new CookieException("Failed running " . __FUNCTION__ . ". setcookie() failed. The corresponding cookie row in database has been successfully deleted\n");
 		}
-	}
+		$_COOKIE[$cookie_name] = $row['id_cookie'];
+	} //ni: encript id to avoid peoples loging in with other accounts simply by changing their id_cookie
 ?>
