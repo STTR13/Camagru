@@ -15,5 +15,5 @@
 	$u2 = new User("john@mail.com", hash_password("johnpw"), $db);
 
 	// construct on account creation
-	$u3 = new User("Joney", "charlie.bit@my.finger.us", hash_password("LEEEROY_JENKINS!"), $db);
+	$u3 = new User("Jonney", "charlie.bit@my.finger.us", hash_password("LEEEROY_JENKINS!"), $db);
 ?>

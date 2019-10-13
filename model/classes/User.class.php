@@ -15,6 +15,7 @@
 		{
 			$a = func_get_args();
 	        $i = func_num_args();
+			echo $i;
 	        if (method_exists($this, $f = '__construct' . $i)) {
 	            call_user_func_array(array($this,$f),$a);
 	        }
@@ -55,7 +56,7 @@
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 31);
 			}
 			if (!User::is_valid_hashed_password($hashed_password)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 32);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid hashed password.\n", 32);
 			}
 			if (!Database::is_valid($db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 33);
@@ -91,7 +92,7 @@
 			if (!Database::is_valid($db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 44);
 			}
-			if (!User::is_email_in_use($email, $db)) {
+			if (User::is_email_in_use($email, $db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email in use.\n", 42);
 			}
 
@@ -166,8 +167,11 @@
 
 			$this->_email = $new;
 		}
-		public function set_password($hashed_new)
+		public function set_password($hashed_old, $hashed_new)
 		{
+			if (!User::is_correct_password($hashed_old, $this->_db)) {
+				throw new InvalidParamException("Fail setting password. Wrong old password.\n", 2);
+			}
 			if (!User::is_valid_hashed_password($hashed_new)) {
 				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
 			}
@@ -198,25 +202,25 @@
 		/*
 		** -------------------- Is valid --------------------
 		*/
-		public static function is_valid_email(string $email)
+		public static function is_valid_email($email)
 		{
-			$patern = "/\A(?=[a-z0-9@.!#$%&'*+\/=?^_`{|}~-]{6,254}\z)(?=[a-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\z/"
+			$patern = "/\A(?=[a-z0-9@.!#$%&'*+\/=?^_`{|}~-]{6,254}\z)(?=[a-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@)[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\z/";
 			return preg_match($patern, $email) ? TRUE : FALSE;
 		}
-		public static function is_valid_pseudo(string $pseudo)
+		public static function is_valid_pseudo($pseudo)
 		{
-			$patern = "/^[a-zA-Z0-9]{6,64}$/";
+			$patern = "/^[a-zA-Z0-9]{3,64}$/";
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
-		public static function is_valid_password(string $password)
+		public static function is_valid_password($password)
 		{
-			$patern = "/(?s)^.{8,64}$/";
-			return preg_match($patern, $pseudo) ? TRUE : FALSE;
+			$patern = "/^.{8,64}$/";
+			return preg_match($patern, $password) ? TRUE : FALSE;
 		}
-		private static function is_valid_hashed_password(string $password)
+		public static function is_valid_hashed_password($password)
 		{
-			$patern = "/(?s)^[a-fA-F0-9]{128}$/"; // related to hash_password()
-			return preg_match($patern, $pseudo) ? TRUE : FALSE;
+			$patern = "/^[a-f0-9]{128}$/"; // related to hash_password()
+			return preg_match($patern, $password) ? TRUE : FALSE;
 		}
 		private static function is_valid_id($id_cookie)
 		{
@@ -228,7 +232,7 @@
 			}
 			return FALSE;
 		}
-		public static function is_email_in_use(string $email, $db)
+		public static function is_email_in_use($email, $db)
 		{
 			if (!User::is_valid_email($email)) {
 				return FALSE;
@@ -245,7 +249,7 @@
 			}
 			return FALSE;
 		}
-		public function is_correct_password(string $hashed_password, $db)
+		public function is_correct_password($hashed_password, $db)
 		{
 			if (!is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
