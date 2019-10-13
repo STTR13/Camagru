@@ -1,5 +1,6 @@
 <?php
-	include 'config/setup.php';
+	require_once "../exceptions/InvalidParamException.class.php";
+	require_once "../exceptions/DatabaseException.class.php";
 
 	class User {
 		private $_id;
