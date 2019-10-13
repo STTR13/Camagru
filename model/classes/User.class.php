@@ -15,7 +15,6 @@
 		{
 			$a = func_get_args();
 	        $i = func_num_args();
-			echo $i;
 	        if (method_exists($this, $f = '__construct' . $i)) {
 	            call_user_func_array(array($this,$f),$a);
 	        }
@@ -97,8 +96,10 @@
 			}
 
 			// adding new user to database and pull the id_user
-			$query = 'INSERT INTO user (pseudo, email, password) VALUES (:ps, :em, :pw;); SELECT LAST_INSERT_ID() AS `id_user`;';
+			$query = 'INSERT INTO user (pseudo, email, password) VALUES (:ps, :em, :pw);';
 			$db->query($query, array(':ps' => $pseudo, ':em' => $email, ':pw' => $hashed_password));
+			$query = 'SELECT LAST_INSERT_ID() AS `id_user`;';
+			$db->query($query, array());
 			$row = $db->fetch();
 			if ($row === false) {
 				throw new DatabaseException("Failed constructing " . __CLASS__ . ". Id not pulled from db.\n");
@@ -144,8 +145,8 @@
 			}
 
 			$query = 'UPDATE user SET pseudo = :ps WHERE id_user = :id;';
-			$db->query($query, array(':ps' => $new, ':id' => $this->_id));
-			$modified_row_count = $db->rowCount();
+			$this->_db->query($query, array(':ps' => $new, ':id' => $this->_id));
+			$modified_row_count = $this->_db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting pseudo. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
@@ -154,13 +155,16 @@
 		}
 		public function set_email($new)
 		{
-			if (!User::is_valid_email($email)) {
-				throw new InvalidParamException("Fail setting email. Invalid email.\n", 42);
+			if (!User::is_valid_email($new)) {
+				throw new InvalidParamException("Fail setting email. Invalid email.\n", 1);
+			}
+			if (User::is_email_in_use($new, $this->_db)) {
+				throw new InvalidParamException("Failed setting email. Email in use.\n", 1);
 			}
 
 			$query = 'UPDATE user SET email = :em WHERE id_user = :id;';
-			$db->query($query, array(':em' => $new, ':id' => $this->_id));
-			$modified_row_count = $db->rowCount();
+			$this->_db->query($query, array(':em' => $new, ':id' => $this->_id));
+			$modified_row_count = $this->_db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting email. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
@@ -178,8 +182,8 @@
 
 			// update db
 			$query = 'UPDATE user SET password = :pw WHERE id_user = :id;';
-			$db->query($query, array(':pw' => $hashed_new, ':id' => $this->_id));
-			$modified_row_count = $db->rowCount();
+			$this->_db->query($query, array(':pw' => $hashed_new, ':id' => $this->_id));
+			$modified_row_count = $this->_db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
@@ -249,15 +253,15 @@
 			}
 			return FALSE;
 		}
-		public function is_correct_password($hashed_password, $db)
+		public function is_correct_password($hashed_password)
 		{
-			if (!is_valid_hashed_password($hashed_password)) {
+			if (!User::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
 			}
 
 			$query = 'SELECT password FROM user WHERE id_user = :id;';
-			$db->query($query, array(':id' => $this->_id));
-			$row = $db->fetch();
+			$this->_db->query($query, array(':id' => $this->_id));
+			$row = $this->_db->fetch();
 			if ($row === false) {
 				throw new DatabaseException("Fail testing password. `id_user` not found in database.\n");
 			}
@@ -270,15 +274,15 @@
 		/*
 		** -------------------- Tools --------------------
 		*/
-		private function link_cookie($id_cookie) {
+		public function link_cookie($id_cookie) {
 			if (!User::is_valid_id($id_cookie)) {
 				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid id_cookie.\n", 1);
 			}
 
 			// update db
 			$query = 'UPDATE cookie SET id_user = :idu WHERE id_cookie = :idc;';
-			$db->query($query, array(':idu' => $this->_id, ':idc' => $id_cookie));
-			$modified_row_count = $db->rowCount();
+			$this->_db->query($query, array(':idu' => $this->_id, ':idc' => $id_cookie));
+			$modified_row_count = $this->_db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
