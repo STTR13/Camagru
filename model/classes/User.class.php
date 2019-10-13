@@ -26,7 +26,7 @@
 		private function __construct2($id_cookie, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_id($id_cookie)) {
+			if (!User::is_valid_id($id_cookie)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.\n", 21);
 			}
 			if (!Database::is_valid($db)) {
@@ -51,10 +51,10 @@
 		private function __construct3($email, $hashed_password, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_email($email)) {
+			if (!User::is_valid_email($email)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 31);
 			}
-			if (!__CLASS__::is_valid_hashed_password($hashed_password)) {
+			if (!User::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 32);
 			}
 			if (!Database::is_valid($db)) {
@@ -79,19 +79,19 @@
 		private function __construct4($pseudo, $email, $hashed_password, $db)
 		{
 			// test parameters validity
-			if (!__CLASS__::is_valid_pseudo($pseudo)) {
+			if (!User::is_valid_pseudo($pseudo)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid pseudo.\n", 41);
 			}
-			if (!__CLASS__::is_valid_email($email)) {
+			if (!User::is_valid_email($email)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.\n", 42);
 			}
-			if (!__CLASS__::is_valid_hashed_password($hashed_password)) {
+			if (!User::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid password.\n", 43);
 			}
 			if (!Database::is_valid($db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 44);
 			}
-			if (!__CLASS__::is_email_in_use($email, $db)) {
+			if (!User::is_email_in_use($email, $db)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Email in use.\n", 42);
 			}
 
@@ -129,8 +129,8 @@
 		/*
 		** -------------------- Account verification --------------------
 		*/
-		public function send_account_verification_request();
-		public function receive_account_verification_request($unique_key);
+		// public function send_account_verification_request() //ni
+		// public function receive_account_verification_request($unique_key) //ni
 
 
 		/*
@@ -138,7 +138,7 @@
 		*/
 		public function set_pseudo($new)
 		{
-			if (!__CLASS__::is_valid_pseudo($new)) {
+			if (!User::is_valid_pseudo($new)) {
 				throw new InvalidParamException("Failed setting pseudo. Invalid pseudo.\n");
 			}
 
@@ -153,7 +153,7 @@
 		}
 		public function set_email($new)
 		{
-			if (!__CLASS__::is_valid_email($email)) {
+			if (!User::is_valid_email($email)) {
 				throw new InvalidParamException("Fail setting email. Invalid email.\n", 42);
 			}
 
@@ -166,29 +166,15 @@
 
 			$this->_email = $new;
 		}
-		public function set_password($old, $new)
+		public function set_password($hashed_new)
 		{
-			if (!__CLASS__::is_valid_password($old)) {
-				throw new InvalidParamException("Fail setting password. Invalid old password.\n", 1);
-			}
-			if (!__CLASS__::is_valid_password($new)) {
+			if (!User::is_valid_hashed_password($hashed_new)) {
 				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
-			}
-
-			// pulling old pw from db and testing if it is the same as param
-			$query = 'SELECT password FROM user WHERE id_user = :id;';
-			$db->query($query, array(':id' => $email));
-			$row = $db->fetch();
-			if ($row === false) {
-				throw new DatabaseException("Fail setting password. `id_user` not found in database.\n");
-			}
-			if (strcmp($row['password'], $old) !== 0) {
-				throw new InvalidParamException("Fail setting password. Wrong old password.\n", 1);
 			}
 
 			// update db
 			$query = 'UPDATE user SET password = :pw WHERE id_user = :id;';
-			$db->query($query, array(':pw' => $new, ':id' => $this->_id));
+			$db->query($query, array(':pw' => $hashed_new, ':id' => $this->_id));
 			$modified_row_count = $db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.\n");
@@ -227,9 +213,9 @@
 			$patern = "/(?s)^.{8,64}$/";
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
-		private static function is_valid_hashed_password($password)
+		private static function is_valid_hashed_password(string $password)
 		{
-			$patern = "/(?s)^.{128}$/"; //ni: related to hash_password()
+			$patern = "/(?s)^[a-fA-F0-9]{128}$/"; // related to hash_password()
 			return preg_match($patern, $pseudo) ? TRUE : FALSE;
 		}
 		private static function is_valid_id($id_cookie)
@@ -242,8 +228,9 @@
 			}
 			return FALSE;
 		}
-		public static function is_email_in_use(string $email, $db) {
-			if (!__CLASS__::is_valid_email($email)) {
+		public static function is_email_in_use(string $email, $db)
+		{
+			if (!User::is_valid_email($email)) {
 				return FALSE;
 			}
 			if (!Database::is_valid($db)) {
@@ -258,12 +245,29 @@
 			}
 			return FALSE;
 		}
+		public function is_correct_password(string $hashed_password, $db)
+		{
+			if (!is_valid_hashed_password($hashed_password)) {
+				throw new InvalidParamException("Fail setting password. Invalid new password.\n", 2);
+			}
+
+			$query = 'SELECT password FROM user WHERE id_user = :id;';
+			$db->query($query, array(':id' => $this->_id));
+			$row = $db->fetch();
+			if ($row === false) {
+				throw new DatabaseException("Fail testing password. `id_user` not found in database.\n");
+			}
+			if (strcmp($row['password'], $hashed_password) != 0) {
+				return FALSE;
+			}
+			return TRUE;
+		}
 
 		/*
 		** -------------------- Tools --------------------
 		*/
 		private function link_cookie($id_cookie) {
-			if (!__CLASS__::is_valid_id($id_cookie)) {
+			if (!User::is_valid_id($id_cookie)) {
 				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid id_cookie.\n", 1);
 			}
 
@@ -277,9 +281,9 @@
 		}
 
 		/*
-		** -------------------- Activities --------------------
+		** -------------------- Activities -------------------- //ni
 		*/
-		public function like($picture)
-		public function comment($picture, $content, $respond_to = null)
+		//public function like($picture)
+		//public function comment($picture, $content, $respond_to = null)
 	}
 ?>
