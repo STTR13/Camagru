@@ -61,7 +61,12 @@
 
 		public function fetch()
 		{
-			return $this->_statement->fetch(PDO::FETCH_ASSOC);
+			try {
+				return $this->_statement->fetch(PDO::FETCH_ASSOC);
+			}
+			catch (PDOException $e) {
+				throw new DatabaseException("Failed fetching " . __CLASS__ . ". Execution failed:\n" . $e->getMessage());
+			}
 		}
 
 		public static function is_valid(Database $db)

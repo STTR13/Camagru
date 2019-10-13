@@ -10,7 +10,9 @@
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.\n", 1);
 		}
 
-		$query = 'INSERT INTO cookie () VALUES (); SELECT LAST_INSERT_ID() AS `id_cookie`;';
+		$query = 'INSERT INTO cookie () VALUES ();';
+		$db->exec($query);
+		$query = 'SELECT LAST_INSERT_ID() AS `id_cookie`;';
 		$db->query($query, array());
 		$row = $db->fetch();
 		if ($row === false) {
@@ -24,8 +26,9 @@
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Failed deleting cookie from db after failing to create it on the client side. ". $modified_row_count . " rows have been modified in the database on delete command.\n");
 			}
-
+			echo "and here";
 			throw new CookieException("Failed running " . __FUNCTION__ . ". setcookie() failed. The corresponding cookie row in database has been successfully deleted\n");
 		}
+		echo "or here";
 	}
 ?>
