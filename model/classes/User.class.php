@@ -143,7 +143,8 @@
 			}
 
 			$query = 'UPDATE user SET pseudo = :ps WHERE id_user = :id;';
-			$modified_row_count = $db->exec($query, array(':ps' => $new, ':id' => $this->_id));
+			$db->query($query, array(':ps' => $new, ':id' => $this->_id));
+			$modified_row_count = $db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting pseudo. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
@@ -157,7 +158,9 @@
 			}
 
 			$query = 'UPDATE user SET email = :em WHERE id_user = :id;';
-			if (($modified_row_count = $db->exec($query, array(':em' => $new, ':id' => $this->_id))) !== 1) {
+			$db->query($query, array(':em' => $new, ':id' => $this->_id));
+			$modified_row_count = $db->rowCount();
+			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting email. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
 
@@ -185,7 +188,9 @@
 
 			// update db
 			$query = 'UPDATE user SET password = :pw WHERE id_user = :id;';
-			if (($modified_row_count = $db->exec($query, array(':pw' => $new, ':id' => $this->_id))) !== 1) {
+			$db->query($query, array(':pw' => $new, ':id' => $this->_id));
+			$modified_row_count = $db->rowCount();
+			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
 		}
@@ -264,7 +269,9 @@
 
 			// update db
 			$query = 'UPDATE cookie SET id_user = :idu WHERE id_cookie = :idc;';
-			if (($modified_row_count = $db->exec($query, array(':idu' => $this->_id, ':idc' => $id_cookie))) !== 1) {
+			$db->query($query, array(':idu' => $this->_id, ':idc' => $id_cookie));
+			$modified_row_count = $db->rowCount();
+			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.\n");
 			}
 		}

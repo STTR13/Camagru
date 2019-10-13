@@ -22,13 +22,12 @@
 		// setcookie and error management
 		if (!setcookie($cookie_name, $row['id_cookie'], $expires + time(), $path, $domain, $secure)) {
 			$query = 'DELETE FROM cookie WHERE id_cookie = :id;';
-			$modified_row_count = $db->exec($query, array(':id' => $row['id_cookie']));
+			$db->query($query, array(':id' => $row['id_cookie']));
+			$modified_row_count = $db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Failed deleting cookie from db after failing to create it on the client side. ". $modified_row_count . " rows have been modified in the database on delete command.\n");
 			}
-			echo "and here";
 			throw new CookieException("Failed running " . __FUNCTION__ . ". setcookie() failed. The corresponding cookie row in database has been successfully deleted\n");
 		}
-		echo "or here";
 	}
 ?>
