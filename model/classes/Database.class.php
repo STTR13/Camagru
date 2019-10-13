@@ -40,14 +40,8 @@
 				throw new DatabaseException("Failed querying " . __CLASS__ . ". Invalid query:\n" . $e->getMessage());
 			}
 
-			// bind values
-			foreach ($bindValues as $key => $value) {
-				if ($this->_statement->bindValue($key, $value) === FALSE) {
-					throw new DatabaseException("Failed querying " . __CLASS__ . ". Invalid bindValue(s):\n" . $e->getMessage());
-				}
-			}
 			// execute statement and return
-			if ($this->_statement->execute() === FALSE) {
+			if ($this->_statement->execute($bindValues) === FALSE) {
 				throw new DatabaseException("Failed querying " . __CLASS__ . ". Execution failed:\n" . $e->getMessage());
 			}
 		}
@@ -67,6 +61,21 @@
 			catch (PDOException $e) {
 				throw new DatabaseException("Failed fetching " . __CLASS__ . ". Execution failed:\n" . $e->getMessage());
 			}
+		}
+
+		public function fetchAll()
+		{
+			try {
+				return $this->_statement->fetchAll(PDO::FETCH_ASSOC);
+			}
+			catch (PDOException $e) {
+				throw new DatabaseException("Failed fetching all " . __CLASS__ . ". Execution failed:\n" . $e->getMessage());
+			}
+		}
+
+		public function rowCount()
+		{
+			return $this->_statement->rowCount();
 		}
 
 		public static function is_valid(Database $db)
