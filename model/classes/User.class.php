@@ -193,6 +193,10 @@
 		/*
 		** -------------------- Get --------------------
 		*/
+		public function get_id()
+		{
+			return $this->_id;
+		}
 		public function get_pseudo()
 		{
 			return $this->_pseudo;
