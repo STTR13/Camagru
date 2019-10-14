@@ -15,3 +15,13 @@ VALUES
 	(2),
 	(4),
 	(1);
+
+INSERT INTO `picture`
+	(`id_user`, `path`)
+VALUES
+	(2, "dumb_path1.jpg"),
+	(4, "dumb_path2.jpg"),
+	(3, "dumb_path3.jpg"),
+	(1, "dumb_path4.jpg"),
+	(3, "dumb_path5.jpg"),
+	(1, "dumb_path6.jpg");
