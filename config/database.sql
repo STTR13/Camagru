@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `picture` (
   `id_picture` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `id_user` INT UNSIGNED,
   `path` VARCHAR(254),
+  `public` BOOLEAN DEFAULT false,
   `date` DATETIME NOT NULL DEFAULT NOW(),
 
   PRIMARY KEY (`id_picture`),
