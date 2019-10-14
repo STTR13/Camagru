@@ -274,6 +274,10 @@
 			}
 			return TRUE;
 		}
+		public static function is_valid($user)
+		{
+			return gettype($user) === 'object' && get_class($user) === __CLASS__;
+		}
 
 		/*
 		** -------------------- Tools --------------------

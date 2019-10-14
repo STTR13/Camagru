@@ -78,9 +78,9 @@
 			return $this->_statement->rowCount();
 		}
 
-		public static function is_valid(Database $db)
+		public static function is_valid($db)
 		{
-			return gettype($db) === 'object' && get_class($db) === __CLASS__ && $db->_db != null;
+			return gettype($db) === 'object' && get_class($db) === __CLASS__;
 		}
 	}
 ?>

@@ -135,6 +135,11 @@
 		{
 			return $this->_public ? TRUE : FALSE;
 		}
+		public static function is_valid($picture)
+		{
+			return gettype($picture) === 'object' && get_class($picture) === __CLASS__;
+		}
+
 
 		/*
 		** --- Set ---
