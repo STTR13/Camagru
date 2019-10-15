@@ -180,7 +180,7 @@
 		public static function get_most_recent_public($db)
 		{
 			if (!Database::is_valid($db)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.\n", 22);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . " in get_most_recent_public. Invalid db object.\n", 1);
 			}
 
 			$query = "SELECT max(id_picture) AS id_picture FROM picture WHERE public = true;";
@@ -205,9 +205,43 @@
 			}
 
 			return new Picture($row['id_picture'], $this->_db);
-		}/*
+		}
 		public static function get_most_recent_from_user($user, $db)
-		public function get_next_from_user($user)*/
+		{
+			if (!User::is_valid($user)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . " in get_most_recent_from_user. Invalid user.\n", 1);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . " in get_most_recent_from_user. Invalid db object.\n", 2);
+			}
+
+			$query = "SELECT max(id_picture) AS id_picture FROM picture WHERE id_user = :idu;";
+			$db->query($query, array(':idu' => $user->get_id()));
+			$row = $db->fetch();
+			if ($row === false) {
+				throw new DatabaseException(__CLASS__ . "::get_most_recent_from_user failed. Id not pulled from db.\n");
+			}
+
+			return new Picture($row['id_picture'], $db);
+		}
+		public function get_next_from_user($user)
+		{
+			if (!User::is_valid($user)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . " in get_next_from_user. Invalid user.\n", 1);
+			}
+
+			$query = "SELECT max(id_picture) AS id_picture FROM picture WHERE id_user = :idu AND id_picture < :idp;";
+			$this->_db->query($query, array(':idu' => $user->get_id(), ':idp' => $this->_id));
+			$row = $this->_db->fetch();
+			if ($row === false) {
+				throw new DatabaseException(__CLASS__ . "::get_next_from_user failed. Id not pulled from db.\n");
+			}
+			if ($row['id_picture'] == null) {
+				return FALSE;
+			}
+
+			return new Picture($row['id_picture'], $this->_db);
+		}
 		// output format: array(<<id_comment>> => array("c" => <<content>>, <<id_response>> => array(...
 		//public function get_comments() //ni
 	}

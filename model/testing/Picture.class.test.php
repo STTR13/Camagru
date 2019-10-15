@@ -49,4 +49,13 @@
 	if ($public_picture_array[1]->get_id() != 4 || $public_picture_array[2]->get_id() != 2) {
 		echo "get_next_public FAILED: wrong id\n";
 	}
+
+	// get_most_recent_from_user and get_next_from_user
+	$public_picture_array = array(0 => Picture::get_most_recent_from_user($u, $db));
+	for ($i = 1; ($public_picture_array[$i] = $public_picture_array[$i - 1]->get_next_from_user($u)) != FALSE; $i++);
+	foreach ($public_picture_array as $value) {
+		if ($public_picture_array[0]->get_user_id() != $u->get_id()) {
+			echo "get_most_recent_from_user or get_next_from_user FAILED: wrong id (" . $public_picture_array[0]->get_user_id() . " instead of " . $u->get_id() . ")\n";
+		}
+	}
 ?>
