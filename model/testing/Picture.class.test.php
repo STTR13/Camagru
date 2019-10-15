@@ -22,5 +22,20 @@
 	//echo $p2->_public . "\n";
 	//echo $p2->_date . "\n";
 
-	
+
+	// set
+	if ($p1->is_public()) {
+		echo "set_public FAILED. 0\n";
+	}
+	$p1->set_public();
+	if (!$p1->is_public()) {
+		echo "set_public FAILED. 1\n";
+	}
+	$db->query("SELECT public FROM picture WHERE id_picture = :idp;", array(':idp' => $p1->get_id()));
+	$row = $db->fetch();
+	if ($row['public'] != "1") {
+		echo "set_pseudo FAILED: ";
+		var_dump($row['public']);
+		echo "\n";
+	}
 ?>
