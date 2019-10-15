@@ -3,11 +3,6 @@
 	require_once '../classes/User.class.php';
 	require_once '../functions/hash_password.php';
 
-
-	/*
-	** --- valid ---
-	*/
-
 	// construct based on id_cookie
 	$u1 = new User(2, $db);
 	//echo ($u1->_id) . "\n";

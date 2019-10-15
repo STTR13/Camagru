@@ -1,4 +1,6 @@
 <?php
+	require_once '../classes/User.class.php';
+
 	class Picture {
 		private $_id;
 		private $_user_id;
@@ -25,7 +27,7 @@
 
 		private function __construct2($id_picture, $db)
 		{
-			if (!User::is_valid_id($id_picture)) {
+			if (!Picture::is_valid_id($id_picture)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.\n", 21);
 			}
 			if (!Database::is_valid($db)) {
@@ -64,9 +66,9 @@
 			}
 
 			// adding new user to database and pull the id_user
-			$query = 'INSERT INTO picture (id_user, `path`) VALUES (:idu, :p);';
+			$query = 'INSERT INTO picture (`id_user`, `path`) VALUES (:idu, :p);';
 			$db->query($query, array(':idu' => $user->get_id(), ':p' => $path));
-			$query = 'SELECT LAST_INSERT_ID() AS `id_picture`, `id_user`, `public`, `date`;';
+			$query = 'SELECT `id_picture`, user.id_user, `pseudo`, `public`, `date` FROM picture JOIN user ON picture.id_user = user.id_user WHERE id_picture = LAST_INSERT_ID();';
 			$db->query($query, array());
 			$row = $db->fetch();
 			if ($row === false) {
@@ -139,6 +141,21 @@
 		{
 			return gettype($picture) === 'object' && get_class($picture) === __CLASS__;
 		}
+		private static function is_valid_id($id)
+		{
+			if (gettype($id) === 'integer' && $id > 0) {
+				return TRUE;
+			}
+			if (gettype($id) === 'string' && preg_match("/^[1-9][0-9]*$/", $id)) {
+				return TRUE;
+			}
+			return FALSE;
+		}
+		private static function is_valid_path($path)
+		{
+			$patern = "/^[a-zA-Z0-9]+\.jpg$/";
+			return preg_match($patern, $path) ? TRUE : FALSE;
+		}
 
 
 		/*
@@ -159,11 +176,11 @@
 
 		/*
 		** -------------------- Advenced gets --------------------
-		*/
+		*//*
 		public static function get_most_recent_public($db)
 		public function get_next_public()
 		public static function get_most_recent_from_user($user, $db)
-		public function get_next_from_user($user)
+		public function get_next_from_user($user)*/
 		// output format: array(<<id_comment>> => array("c" => <<content>>, <<id_response>> => array(...
 		//public function get_comments() //ni
 	}
