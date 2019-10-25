@@ -23,7 +23,7 @@
 </div><?php //ni: put the right amount of likes and add comments bellow
 	}
 
-	require_once '../../model/testing/initialise.tests.php';
-	$p = new Picture(2, $db); //t
-	post($p);
+	// require_once '../../model/testing/initialise.tests.php';
+	// $p = new Picture(2, $db); //t
+	// post($p);
 ?>
