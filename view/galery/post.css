@@ -1,0 +1,50 @@
+.post {
+	width: 60vw;
+	background-color: #f4f4f4;
+	font-family: sans-serif;
+
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	margin-bottom: 20px;
+}
+.head-info {
+	padding: 16px;
+	margin: 0px;
+}
+.foot-info {
+	padding: 16px;
+	margin: 0px;
+}
+.picture {
+	width: inherit;
+}
+user {
+	font-size: 2em;
+	display: block;
+}
+date {
+	font-size: 0.5em;
+	display: block;
+	color: #b5b6b6;
+}
+.button {
+	border-radius: 100%;
+	width: 2.7em;
+	height: 2.7em;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	display: inline-block;
+}
+.like {
+
+}
+.like-img {
+	width: 1.7em;
+	position: relative;
+	top: 0.09em;
+	left: 0em;
+}
+.like-amount {
+	display: inline-block;
+	font-size: 1em;
+}
