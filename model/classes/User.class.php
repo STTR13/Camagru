@@ -1,6 +1,6 @@
 <?php
-	require_once "../exceptions/InvalidParamException.class.php";
-	require_once "../exceptions/DatabaseException.class.php";
+	require_once "../../model/exceptions/InvalidParamException.class.php";
+	require_once "../../model/exceptions/DatabaseException.class.php";
 
 	class User {
 		private $_id;

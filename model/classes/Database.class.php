@@ -1,6 +1,6 @@
 <?php
-	require_once "../functions/verbose.php";
-	require_once "../exceptions/DatabaseException.class.php";
+	require_once "../../model/functions/verbose.php";
+	require_once "../../model/exceptions/DatabaseException.class.php";
 
 	class Database {
 		private $_db;

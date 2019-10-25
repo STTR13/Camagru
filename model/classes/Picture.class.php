@@ -1,5 +1,6 @@
 <?php
-	require_once '../classes/User.class.php';
+	require_once '../../model/classes/User.class.php';
+	require_once '../../model/classes/Database.class.php';
 
 	class Picture {
 		private $_id;
