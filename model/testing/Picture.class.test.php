@@ -43,10 +43,10 @@
 	// get_most_recent_public and get_next_public
 	$public_picture_array = array(0 => Picture::get_most_recent_public($db));
 	for ($i = 1; ($public_picture_array[$i] = $public_picture_array[$i - 1]->get_next_public()) != FALSE; $i++);
-	if ($public_picture_array[0]->get_id() != 5) {
+	if ($public_picture_array[0]->get_id() != 6) {
 		echo "get_most_recent_public FAILED: wrong id\n";
 	}
-	if ($public_picture_array[1]->get_id() != 4 || $public_picture_array[2]->get_id() != 2) {
+	if ($public_picture_array[1]->get_id() != 5 || $public_picture_array[2]->get_id() != 4) {
 		echo "get_next_public FAILED: wrong id\n";
 	}
 

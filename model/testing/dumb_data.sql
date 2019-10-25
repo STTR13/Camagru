@@ -19,9 +19,9 @@ VALUES
 INSERT INTO `picture`
 	(`id_user`, `path`, `public`)
 VALUES
-	(2, "dumb_path1.jpg", 0),
+	(2, "dumb_path1.jpg", 1),
 	(4, "dumb_path2.jpg", 0),
-	(3, "dumb_path3.jpg", 0),
+	(3, "dumb_path3.jpg", 1),
 	(1, "dumb_path4.jpg", 1),
 	(3, "dumb_path5.jpg", 1),
-	(1, "dumb_path6.jpg", 0);
+	(1, "dumb_path6.jpg", 1);
