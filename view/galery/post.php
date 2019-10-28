@@ -1,7 +1,7 @@
 <?php
 	require_once "../../model/classes/Picture.class.php";
 
-	function post(Picture $p) {
+	function post($p) {
 		if (!Picture::is_valid($p)) {
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid picture.\n", 1);
 		}
