@@ -43,7 +43,7 @@
 		<div id="feed">
 			<?php
 				$picture = Picture::get_most_recent_public($db);
-				for ($i=0; $i < 2 && $picture != false; $i++) {
+				for ($i=0; $i < 3 && $picture != false; $i++) {
 					post($picture);
 					$picture = $picture->get_next_public();
 				}
