@@ -9,6 +9,30 @@
 		private $_db;
 
 		/*
+		** -------------------- Serialize --------------------
+		*/
+		public function serialize()
+	    {
+	        return serialize([
+	            $this->_id,
+	            $this->_pseudo,
+	            $this->_email,
+				$this->_db
+	        ]);
+	    }
+
+	    public function unserialize($data)
+	    {
+	        list(
+	            $this->_id,
+	            $this->_pseudo,
+	            $this->_email,
+				$this->_db
+	        ) = unserialize($data);
+	    }
+
+
+		/*
 		** -------------------- Construct --------------------
 		*/
 		public function __construct()
@@ -230,7 +254,7 @@
 			$patern = "/^[a-f0-9]{128}$/"; // related to hash_password()
 			return preg_match($patern, $password) ? TRUE : FALSE;
 		}
-		private static function is_valid_id($id_cookie)
+		public static function is_valid_id($id_cookie)
 		{
 			if (gettype($id_cookie) === 'integer' && $id_cookie > 0) {
 				return TRUE;

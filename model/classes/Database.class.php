@@ -2,9 +2,46 @@
 	require_once "../../model/functions/verbose.php";
 	require_once "../../model/exceptions/DatabaseException.class.php";
 
-	class Database {
+	class Database implements Serializable {
 		private $_db;
 		private $_statement;
+
+		private $_dsn;
+		private $_username;
+		private $_password;
+
+		// --- serializable ---
+
+		public function serialize()
+	    {
+	        return serialize([
+	            $this->_dsn,
+	            $this->_username,
+				$this->_password
+	        ]);
+	    }
+
+	    public function unserialize($data)
+	    {
+	        list(
+	            $this->_dsn,
+	            $this->_username,
+				$this->_password
+	        ) = unserialize($data);
+
+			try {
+			    $this->_db = new PDO(
+					$this->_dsn,
+					$this->_username,
+					$this->_password,
+					array(PDO::ATTR_PERSISTENT => TRUE, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+				);
+			} catch(PDOException $e) {
+				throw new DatabaseException("Failed constructing " . __CLASS__ . " while unserialize. PDO instanciation failed:\n" . $e->getMessage());
+			}
+	    }
+
+		// --- construct ---
 
 		public function __construct($dsn, $username, $password)
 		{
@@ -20,6 +57,10 @@
 			} catch(PDOException $e) {
 				throw new DatabaseException("Failed constructing " . __CLASS__ . ". PDO instanciation failed:\n" . $e->getMessage());
 			}
+
+			$this->_dsn = $dsn;
+			$this->_username = $username;
+			$this->_password = $password;
 		}
 
 		public function __destruct()

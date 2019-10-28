@@ -2,7 +2,7 @@
 	require_once '../../model/classes/User.class.php';
 	require_once '../../model/classes/Database.class.php';
 
-	class Picture {
+	class Picture implements Serializable{
 		private $_id;
 		private $_user_id;
 		private $_user_pseudo;
@@ -10,6 +10,35 @@
 		private $_public;
 		private $_date;
 		private $_db;
+
+		/*
+		** -------------------- Serialize --------------------
+		*/
+		public function serialize()
+	    {
+	        return serialize([
+	            $this->_id,
+	            $this->_user_id,
+	            $this->_user_pseudo,
+				$this->_path,
+	            $this->_public,
+	            $this->_date,
+				$this->_db
+	        ]);
+	    }
+
+	    public function unserialize($data)
+	    {
+	        list(
+	            $this->_id,
+	            $this->_user_id,
+	            $this->_user_pseudo,
+				$this->_path,
+	            $this->_public,
+	            $this->_date,
+				$this->_db
+	        ) = unserialize($data);
+	    }
 
 		/*
 		** -------------------- Construct --------------------
