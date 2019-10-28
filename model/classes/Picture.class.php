@@ -169,9 +169,16 @@
 		}
 		public static function is_valid($picture)
 		{
-			return gettype($picture) === 'object' && get_class($picture) === __CLASS__;
+			return (gettype($picture) === 'object'
+			&& get_class($picture) === __CLASS__
+			&& Picture::is_valid_id($picture->get_id())
+			&& User::is_valid_id($picture->get_user_id())
+			&& User::is_valid_pseudo($picture->get_user_pseudo())
+			&& Picture::is_valid_path($picture->get_path())
+			&& $picture->is_public() != null
+			&& $picture->get_date() != null);
 		}
-		private static function is_valid_id($id)
+		public static function is_valid_id($id)
 		{
 			if (gettype($id) === 'integer' && $id > 0) {
 				return TRUE;
@@ -181,9 +188,9 @@
 			}
 			return FALSE;
 		}
-		private static function is_valid_path($path)
+		public static function is_valid_path($path)
 		{
-			$patern = "/^[a-zA-Z0-9]+\.jpg$/";
+			$patern = "/^[a-zA-Z0-9_-]+\.jpg$/";
 			return preg_match($patern, $path) ? TRUE : FALSE;
 		}
 
