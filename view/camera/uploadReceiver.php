@@ -8,7 +8,7 @@
       $img = str_replace('data:image/png;base64,', '', $img);
       $img = str_replace(' ', '+', $img);
       $data = base64_decode($img);
-      $file = '../../data/content/up'.date("YmdHis").'.png';
+      $file = '../../data/tmp/up'.date("YmdHis").'.png';
 	  // echo "And finaly here\n";
 
       if (file_put_contents($file, $data)) {
