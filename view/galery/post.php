@@ -14,7 +14,7 @@
 	<img class="picture" src="<?='/data/content/' . $p->get_path()?>">
 	<div class="foot-info">
 		<div class="like">
-			<button class="button" style="background-color: red;" type="button" name="like">
+			<button class="button" type="button" name="like">
 				<img class="like-img" src="/data/images/white-heart.png">
 			</button>
 			<div class="like-amount">13 likes</div>
