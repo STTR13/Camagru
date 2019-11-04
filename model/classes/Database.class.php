@@ -1,5 +1,5 @@
 <?php
-	require_once "../../model/functions/verbose.php";
+	// require_once "../../model/functions/verbose.php";
 	require_once "../../model/exceptions/DatabaseException.class.php";
 
 	class Database implements Serializable {
@@ -45,7 +45,7 @@
 
 		public function __construct($dsn, $username, $password)
 		{
-			verbose("Database::__construct(" . $dsn . ", " . $username . ", " . $password . ")");
+			// verbose("Database::__construct(" . $dsn . ", " . $username . ", " . $password . ")");
 
 			try {
 			    $this->_db = new PDO(
@@ -65,14 +65,14 @@
 
 		public function __destruct()
 		{
-			verbose("Database::__destruct()");
+			// verbose("Database::__destruct()");
 
 			$this->_db = null;
 		}
 
 		public function query($query, $bindValues)
 		{
-			verbose("Database::query(" . $query . ", bv_array)\nbv_array: " . json_encode($bindValues) . "\n");
+			// verbose("Database::query(" . $query . ", bv_array)\nbv_array: " . json_encode($bindValues) . "\n");
 
 			// prepare
 			try {
@@ -89,9 +89,9 @@
 
 		public function exec($sql)
 		{
-			verbose("Database::exec(" . $sql . ")\n");
+			// verbose("Database::exec(" . $sql . ")\n");
 
-			return rverbose($this->_db->exec($sql));
+			return $this->_db->exec($sql);
 		}
 
 		public function fetch()
