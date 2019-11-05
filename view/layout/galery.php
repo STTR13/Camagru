@@ -1,5 +1,5 @@
 <?php
-	require_once 'login.php';
+	require_once 'account.php';
 
 	function galery($db) {
 ?>
@@ -8,18 +8,22 @@
 	<div class="row">
 		<div class="col-sm" id="feed">
 			<?php
+
 				$picture = Picture::get_most_recent_public($db);
 				for ($i=0; $i < 3 && $picture != false; $i++) {
 					post($picture);
 					$picture = $picture->get_next_public();
 				}
 				$_SESSION['picture'] = serialize($picture);
-				//var_dump($_SESSION['picture']);
+				
 			?>
-		</div><?php
+		</div>
+		<?php
 
-			if (!array_key_exists('user', $_SESSION)) {
+			if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
 				login();
+			} else {
+				logout();
 			}
 
 		?>

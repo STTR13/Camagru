@@ -4,7 +4,7 @@
 	function login() {
 		?><div class="col-sm-4">
 			<div id="login" class="post" style="display: block;">
-				<form action="../../control/login/login.php" class="head-info" method="post">
+				<form action="../../control/account/login.php" class="head-info" method="post">
 					<h3 style="text-align: center; color: black;">Log-in</h3>
 					Email:<br>
 					<input type="text" name="email" value="" style="border: none; width: 100%;">
@@ -20,7 +20,7 @@
 				</form>
 			</div>
 			<div id="account-creation" class="post" style="display: none;">
-				<form action="../../control/login/create.php" class="head-info" method="post">
+				<form action="../../control/account/create.php" class="head-info" method="post">
 					<h3 style="text-align: center; color: black;">Create an account</h3>
 					Pseudo:<br>
 					<input type="text" name="pseudo" value="" style="border: none; width: 100%;">
@@ -52,5 +52,21 @@
 				document.getElementById("login").style.display = "block";
 			}
 		</script><?php
+	}
+
+	function logout() {
+		$usr = unserialize($_SESSION['user']);
+		// var_dump($usr);
+
+		?><div class="col-sm-4">
+			<div id="login" class="post" style="display: block;">
+				<form action="../../control/account/logout.php" class="head-info" method="post">
+					<h3 style="color: black; display: inline;"><?= $usr->get_pseudo() ?></h3>
+					<input type="submit" value="logout" style="display: inline; font-size: 0.7em; color: black; cursor: pointer; border: none; background: none; color: red;">
+				</form>
+			</div>
+		</div><?php
+
+		// $_SESSION['user'] = null;
 	}
 ?>
