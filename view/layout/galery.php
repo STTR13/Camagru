@@ -1,7 +1,9 @@
 <?php
 	function html_galery($db) {
+		if (!Database::is_valid($db)) {
+			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.", 1);
+		}
 ?>
-
 <div class="col-sm" id="feed">
 	<?php
 

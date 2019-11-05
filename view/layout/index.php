@@ -13,6 +13,7 @@
 	}
 
 	$_SESSION['db'] = serialize($db);
+	var_dump($_SESSION);
 
 	header('Location: ../../view/layout/home.php');
 

@@ -2,6 +2,7 @@
 
 	require_once "../../view/galery/post.php";
 	require_once "../../model/classes/Picture.class.php";
+	session_start();
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +26,7 @@
 				<?php
 
 					require_once 'galery.php';
-					html_galery($db);
+					html_galery(unserialize($_SESSION['db']));
 
 					if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
 						require_once 'login.php';

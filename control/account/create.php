@@ -22,5 +22,5 @@
 			window.location.href='../../view/layout/index.php';
 		</script><?php
 
-	}
+	}//ni: link cookie
 ?>

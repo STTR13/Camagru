@@ -212,9 +212,6 @@
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.");
 			}
 		}
-		public function add_cookie($id_cookie) {
-			//ni
-		}
 		//public function set_pref_mail_notification() //ni
 
 		/*
