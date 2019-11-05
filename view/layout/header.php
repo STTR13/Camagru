@@ -1,5 +1,5 @@
 <?php
-	function vheader() {
+	function html_header() {
 
 ?>
 <div class="mynavbar">
@@ -9,9 +9,9 @@
 	} else {
 
 		?>
-	<a class="fleft" href="#home">Galery</a>
-	<a class="fright" href="#settings">Settings</a>
-	<a class="fright" href="#pictures">Pictures</a>
+	<a class="fleft" href="home.php">Galery</a>
+	<a class="fright" href="settings.php">Settings</a>
+	<a class="fright" href="pictures.php">Pictures</a>
 		<?php
 
 	}

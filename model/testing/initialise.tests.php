@@ -4,11 +4,12 @@
 
 	$hostname = "127.0.0.1";
 	$username = "root";
-	$password = "";
+	$password = "password";
 	$dsn = 'mysql:host='.$hostname.';port=3306;charset=utf8';
 	$setup_file = '../../config/database.sql';
 	$dumb_data_file = '../../model/testing/dumb_data.sql';
 	$dbname = 'testdb';
+	$id_cookie_name = 'id_cookie';
 
 	$verbose = TRUE;
 

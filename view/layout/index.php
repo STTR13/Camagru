@@ -1,32 +1,19 @@
 <?php
 
-	@ob_start();
-	require_once "../../view/galery/post.php";
-	require_once "../../model/classes/Picture.class.php";
 	require_once '../../model/testing/initialise.tests.php';
+	require_once '../../model/classes/User.class.php';
+	require_once '../../model/functions/id_cookie.php';
 	session_start();
+
+	try {
+		$usr = new User($_COOKIE[$id_cookie_name], $db);
+		$_SESSION['user'] = serialize($usr);
+	} catch (Exception $e) {
+		new_id_cookie($db, $id_cookie_name);
+	}
 
 	$_SESSION['db'] = serialize($db);
 
+	header('Location: ../../view/layout/home.php');
+
 ?>
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-	</head>
-	<body onscroll="scroll()">
-		<?php
-
-			require_once 'stylesheets.php';
-			stylesheets();
-
-			require_once 'header.php';
-			vheader();
-
-			require_once 'galery.php';
-			galery($db);
-			
-		?>
-	</body>
-</html>
