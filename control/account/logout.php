@@ -8,6 +8,6 @@
 	$id_cookie_name = 'id_cookie';
 
 	$_SESSION['user'] = null;
-	del_id_cookie($db, $_COOKIE[$id_cookie_name]);
+	unlink_cookie(unserialize($_SESSION['db']), $_COOKIE[$id_cookie_name]);
 	header('Location: ../../view/layout/index.php');
 ?>

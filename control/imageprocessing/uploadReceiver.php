@@ -12,7 +12,7 @@
 	  // echo "And finaly here\n";
 
       if (file_put_contents($file, $data)) {
-         // echo "The canvas was saved as $file.";
+         echo "$file";
       } else {
          // echo 'The canvas could not be saved.';
       }

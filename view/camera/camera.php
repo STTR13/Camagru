@@ -15,11 +15,10 @@
 		-->
 		<video id="video" style="width: 100%; height: auto;" width="640" height="480" autoplay></video>
 		<div class="head-info">
-			<button id="snap" style="cursor: pointer; font-size: 1.2em; border: none; background: red; color: white; border-radius: 10%; background: rgb(0,15,61); background: linear-gradient(146deg, rgba(0,15,61,1) 0%, rgba(5,70,79,1) 39%, rgba(9,96,96,1) 76%, rgba(0,143,90,1) 100%);">Snap Photo</button>
+			<button id="snap" class="insto-button">Snap Photo</button>
 		</div>
-		<canvas id="canvas" style="width: 100%; height: auto;" width="640" height="480"></canvas>
-		<div class="foot-info">
-		</div>
+		<img id="output-img" class="picture" src="">
+		<canvas id="canvas" style="display: none; width: 100%; height: auto;" width="640" height="480"></canvas>
 	</div>
 
 	<script type="text/javascript" src="../../view/camera/camera.js"></script>

@@ -15,7 +15,7 @@
 			<input type="password" name="password" value="" style="border: none; width: 100%;">
 			<br><br>
 			<div style="text-align: center;">
-				<input type="submit" value="Submit" style="cursor: pointer; font-size: 1.2em; border: none; background: red; color: white; border-radius: 10%; background: rgb(0,15,61); background: linear-gradient(146deg, rgba(0,15,61,1) 0%, rgba(5,70,79,1) 39%, rgba(9,96,96,1) 76%, rgba(0,143,90,1) 100%);">
+				<input type="submit" value="Submit" class="insto-button">
 				<br>
 				<a onclick="to_account_creation()" style="font-size: 0.7em; color: black; cursor: pointer;">I dont have any account</a>
 			</div>
@@ -36,7 +36,7 @@
 			<input type="password" name="confirm_password" value="" style="border: none; width: 100%;">
 			<br><br>
 			<div style="text-align: center;">
-				<input type="submit" value="Submit" style="cursor: pointer; font-size: 1.2em; border: none; background: red; color: white; border-radius: 10%; background: rgb(0,15,61); background: linear-gradient(146deg, rgba(0,15,61,1) 0%, rgba(5,70,79,1) 39%, rgba(9,96,96,1) 76%, rgba(0,143,90,1) 100%);">
+				<input type="submit" value="Submit" class="insto-button">
 				<br>
 				<a onclick="to_login()" style="font-size: 0.7em; color: black; cursor: pointer;">I alredy have an account</a>
 			</div>

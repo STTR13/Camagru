@@ -1,7 +1,6 @@
 <?php
 	function html_logout() {
 		$usr = unserialize($_SESSION['user']);
-		// var_dump($usr);
 
 		?>
 <div class="col-sm-4">
@@ -14,6 +13,5 @@
 </div>
 		<?php
 
-		// $_SESSION['user'] = null;
 	}
 ?>
