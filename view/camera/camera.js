@@ -33,7 +33,7 @@ function uploadCanvas() {
 			//console.log(this.responseText);
 		}
 	};
-	xhttp.open("POST", "uploadReceiver.php", true);
+	xhttp.open("POST", "../../control/imageprocessing/uploadReceiver.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("img=" + dataURL);
 }
