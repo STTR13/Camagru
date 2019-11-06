@@ -24,16 +24,8 @@
 			<div class="row">
 				<?php
 
-					require_once '../../view/galery/galery.php';
-					html_galery(unserialize($_SESSION['db']));
-
-					if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
-						require_once '../../view/account/login.php';
-						html_login();
-					} else {
-						require_once '../../view/account/logout.php';
-						html_logout();
-					}
+					require_once '../../view/camera/camera.php';
+					html_camera(unserialize($_SESSION['db']));
 
 				?>
 			</div>

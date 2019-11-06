@@ -20,6 +20,6 @@ function loadMoreData() {
 			document.getElementById('feed').insertAdjacentHTML('beforeend', this.responseText);
 		}
 	};
-	xhttp.open("GET", "../../view/galery/loadMoreData.php", true);
+	xhttp.open("GET", "/control/infinitescroll/loadMoreData.php", true);
 	xhttp.send();
 }

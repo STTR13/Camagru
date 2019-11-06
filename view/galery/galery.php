@@ -1,4 +1,6 @@
 <?php
+	require_once "../../view/galery/post.php";
+
 	function html_galery($db) {
 		if (!Database::is_valid($db)) {
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.", 1);
@@ -16,7 +18,7 @@
 
 	?>
 </div>
-<script type="text/javascript" src="galery.js"></script>
+<script type="text/javascript" src="../../view/galery/galery.js"></script>
 
 <?php
 	}
