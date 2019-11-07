@@ -1,8 +1,8 @@
 <?php
 	session_start();
-	require_once '../../model/classes/User.class.php';
-	require_once '../../model/functions/hash_password.php';
-	require_once '../../model/classes/Database.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/User.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/hash_password.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
 	try {
 		$usr = new User($_POST['email'], hash_password($_POST['password']), unserialize($_SESSION['db']));

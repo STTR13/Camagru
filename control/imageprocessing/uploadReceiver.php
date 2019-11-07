@@ -1,8 +1,8 @@
 <?php
 
 	session_start();
-	require_once "../../model/classes/Picture.class.php";
-	require_once "../../model/functions/merge.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Picture.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/merge.php';
 
 	$img = $_POST['img'];
 

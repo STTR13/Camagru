@@ -1,3 +1,3 @@
 <?php
-	private function send_mail($content);
+	function send_mail($content);//ni
 ?>

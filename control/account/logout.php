@@ -1,9 +1,9 @@
 <?php
 	session_start();
-	require_once '../../model/classes/User.class.php';
-	require_once '../../model/functions/hash_password.php';
-	require_once '../../model/classes/Database.class.php';
-	require_once '../../model/functions/id_cookie.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/User.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/hash_password.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/id_cookie.php';
 
 	$id_cookie_name = 'id_cookie';
 

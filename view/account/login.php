@@ -1,5 +1,5 @@
 <?php
-	require_once '../../model/classes/User.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/User.class.php';
 
 	function html_login() {
 

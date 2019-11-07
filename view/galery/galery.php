@@ -1,5 +1,5 @@
 <?php
-	require_once "../../view/galery/post.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/view/galery/post.php';
 
 	function html_galery($db) {
 		if (!Database::is_valid($db)) {

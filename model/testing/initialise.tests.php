@@ -1,6 +1,6 @@
 <?php
-	require_once "../../model/functions/verbose.php";
-	require_once '../../model/classes/Database.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/verbose.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
 	$hostname = "127.0.0.1";
 	$username = "root";

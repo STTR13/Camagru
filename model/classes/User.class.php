@@ -1,6 +1,6 @@
 <?php
-	require_once "../../model/exceptions/InvalidParamException.class.php";
-	require_once "../../model/exceptions/DatabaseException.class.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/InvalidParamException.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/DatabaseException.class.php';
 
 	class User {
 		private $_id;

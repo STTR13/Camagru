@@ -1,8 +1,8 @@
 <?php
 
-	require_once '../../model/testing/initialise.tests.php';
-	require_once '../../model/classes/User.class.php';
-	require_once '../../model/functions/id_cookie.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/testing/initialise.tests.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/User.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/id_cookie.php';
 	session_start();
 
 	try {

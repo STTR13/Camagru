@@ -1,7 +1,7 @@
 <?php
-	require_once "../../model/exceptions/InvalidParamException.class.php";
-	require_once "../../model/exceptions/DatabaseException.class.php";
-	require_once "../../model/exceptions/CookieException.class.php";
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/InvalidParamException.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/DatabaseException.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/CookieException.class.php';
 
 	// create a cookie wich values is an cookie.id_cookie extracted from the database
 	function new_id_cookie($db, $cookie_name, $domain = "", $expires = 2592000, $path = "/", $secure = FALSE) {
