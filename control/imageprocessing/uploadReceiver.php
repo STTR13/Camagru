@@ -1,22 +1,30 @@
 <?php
 
-   $img = $_POST['img'];
-	// echo "I'm here\n";
-	// var_dump($_POST['img']);
-   if (strpos($img, 'data:image/png;base64,') === 0) {
-	   // echo "And here too\n";
-      $img = str_replace('data:image/png;base64,', '', $img);
-      $img = str_replace(' ', '+', $img);
-      $data = base64_decode($img);
-      $file = '../../data/tmp/up'.date("YmdHis").'.png';
-	  // echo "And finaly here\n";
+	session_start();
+	require_once "../../model/classes/Picture.class.php";
+	require_once "../../model/functions/merge.php";
 
-      if (file_put_contents($file, $data)) {
-         echo "$file";
-      } else {
-         // echo 'The canvas could not be saved.';
-      }
+	$img = $_POST['img'];
 
-   }
+	if (strpos($img, 'data:image/png;base64,') === 0) {
+		$img = str_replace('data:image/png;base64,', '', $img);
+		$img = str_replace(' ', '+', $img);
+		$data = base64_decode($img);
+		$tmp_file = '../../data/content/tmp.png';
+
+		if (file_put_contents($tmp_file, $data)) {
+			try {
+				$picture = new Picture('tmp.png', unserialize($_SESSION['user']), unserialize($_SESSION['db']));
+				$picture->set_path($picture->get_id() . ".png");
+			} catch (Exception $e) {
+				echo $e;
+			}
+
+			merge($tmp_file, "../../data/filters/1.png", '../../data/content/' . $picture->get_path());
+			unlink($tmp_file);
+
+			echo '../../data/content/' . $picture->get_id() . '.png';
+	 	}
+	}
 
 ?>
