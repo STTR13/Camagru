@@ -7,7 +7,7 @@
 		// }
 
 ?>
-<div class="filter" style="float: left;">
+<div class="filter" style="display: inline;">
 	<input id="content<?= $p->get_id() ?>" type="checkbox">
 	<img src="<?= '/data/content/' . $p->get_path() ?>" height="100px">
 </div>
