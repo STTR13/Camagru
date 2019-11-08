@@ -16,10 +16,10 @@
 		<?php
 
 			$picture = Picture::get_most_recent_from_user($usr, $db);
-			var_dump($picture);
+			//var_dump($picture);
 			while ($picture) {
 				personalcontentelem($picture);
-				$picture = $picture->get_next_from_user();
+				$picture = $picture->get_next_from_user($usr);
 			}
 
 		?>
@@ -28,5 +28,12 @@
 <?php
 
 	}
+
+	// try {
+	// 	require_once '/Users/staeter/Desktop/Camagru/model/testing/User.class.testing.php';
+	// 	personalcontentlist($u1, $db);
+	// } catch (Exception $e) {
+	// 	echo $e;
+	// }
 
 ?>
