@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="/view/stylesheets/post.css">
 <link rel="stylesheet" href="/view/stylesheets/header.css">
 <link rel="stylesheet" href="/view/stylesheets/button.css">
+<link rel="stylesheet" href="/view/stylesheets/filters.css">
 
 <?php
 	}

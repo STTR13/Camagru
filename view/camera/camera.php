@@ -15,10 +15,24 @@
 		-->
 		<video id="video" style="width: 100%; height: auto;" width="640" height="480" autoplay></video>
 		<div class="head-info">
+			<?php
+
+				require_once $_SERVER["DOCUMENT_ROOT"] . '/view/filters/filters.php';
+				filters();
+
+			?>
+		</div>
+		<div class="head-info" style="text-align: center;">
 			<button id="snap" class="insto-button">Snap Photo</button>
 		</div>
-		<img id="output-img" class="picture" src="">
 		<canvas id="canvas" style="display: none; width: 100%; height: auto;" width="640" height="480"></canvas>
+	</div>
+
+	<div class="post">
+		<div class="head-info">
+			<h3 style="text-align: center; color: black;">Result</h3>
+		</div>
+		<img id="output-img" class="picture" src="">
 	</div>
 
 	<script type="text/javascript" src="../../view/camera/camera.js"></script>

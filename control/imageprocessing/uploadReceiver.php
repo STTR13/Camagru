@@ -5,6 +5,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/merge.php';
 
 	$img = $_POST['img'];
+	$filter = $_POST['filter'];
 
 	if (strpos($img, 'data:image/png;base64,') === 0) {
 		$img = str_replace('data:image/png;base64,', '', $img);
@@ -20,7 +21,7 @@
 				echo $e;
 			}
 
-			merge($tmp_file, "../../data/filters/1.png", '../../data/content/' . $picture->get_path());
+			merge($tmp_file, "../../data/filters/" . $filter, '../../data/content/' . $picture->get_path());
 			unlink($tmp_file);
 
 			echo '../../data/content/' . $picture->get_id() . '.png';

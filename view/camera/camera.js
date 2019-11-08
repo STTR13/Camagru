@@ -24,16 +24,20 @@ document.getElementById("snap").addEventListener("click", function() {
 
 // Send img to server
 function uploadCanvas() {
+	var filter = getFilter();
+	if (filter == "") {
+		return;
+	}
+
 	var dataURL = canvas.toDataURL();
 	var xhttp = new XMLHttpRequest();
-	//console.log(dataURL);
+
 	xhttp.onreadystatechange = function() {
-		//console.log(this.readyState + " : " + this.status);
 		if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("output-img").src = this.responseText;
 		}
 	};
 	xhttp.open("POST", "../../control/imageprocessing/uploadReceiver.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	xhttp.send("img=" + dataURL);
+	xhttp.send("img=" + dataURL + "&filter=" + filter);
 }
