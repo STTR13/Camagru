@@ -27,6 +27,15 @@
 					require_once '../../view/camera/camera.php';
 					html_camera(unserialize($_SESSION['db']));
 
+					try {
+						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/personalcontent/personalcontentlist.php';
+						personalcontentlist(unserialize($_SESSION['user']), unserialize($_SESSION['db']));
+					} catch (Exception $e) {
+						echo $e;
+					}
+
+
+
 				?>
 			</div>
 		</div>

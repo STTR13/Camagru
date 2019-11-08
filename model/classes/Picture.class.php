@@ -190,7 +190,7 @@
 		}
 		public static function is_valid_path($path)
 		{
-			$patern = "/^[a-zA-Z0-9_-]+\.(jpg|png)$/";
+			$patern = "/^[a-zA-Z0-9_]+\.(jpg|png)$/";
 			return preg_match($patern, $path) ? TRUE : FALSE;
 		}
 
