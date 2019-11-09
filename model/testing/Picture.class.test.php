@@ -27,7 +27,15 @@
 	if ($p1->is_public()) {
 		echo "set_public FAILED. 0\n";
 	}
-	$p1->set_public();
+	var_dump($p1->is_public());
+
+	try {
+		$p1->set_public();
+	} catch (Exception $e) {
+		echo $e;
+	}
+
+	var_dump($p1->is_public());
 	if (!$p1->is_public()) {
 		echo "set_public FAILED. 1\n";
 	}

@@ -15,7 +15,7 @@
 	<div class="head-info" style="padding-bottom: 0px;">
 		<h3 style="text-align: center; color: black;">Public</h3>
 	</div>
-	<div class="head-info" style="padding-bottom: 0px;">
+	<div class="head-info">
 		<div id="filters" style="white-space: nowrap; overflow-x: auto; background-color: white;">
 			<?php
 
@@ -27,9 +27,6 @@
 				}
 
 			?>
-		</div>
-		<div class="head-info" style="text-align: center;">
-			<button id="save-public" class="insto-button">Save</button>
 		</div>
 	</div>
 </div>
