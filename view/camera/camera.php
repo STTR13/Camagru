@@ -27,7 +27,7 @@
 	<canvas id="canvas" style="display: none; width: 100%; height: auto;" width="640" height="480"></canvas>
 </div>
 
-<div class="post">
+<div class="post" id="result-post" style="display: none;">
 	<div class="head-info">
 		<h3 style="text-align: center; color: black;">Result</h3>
 	</div>

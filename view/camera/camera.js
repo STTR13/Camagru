@@ -40,4 +40,6 @@ function uploadCanvas() {
 	xhttp.open("POST", "../../control/imageprocessing/uploadReceiver.php", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	xhttp.send("img=" + dataURL + "&filter=" + filter);
+
+	document.getElementById("result-post").style.display = "block";
 }
