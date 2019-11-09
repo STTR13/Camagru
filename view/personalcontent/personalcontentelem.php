@@ -7,8 +7,8 @@
 		// }
 
 ?>
-<div class="filter" style="display: inline;">
-	<input id="content<?= $p->get_id() ?>" type="checkbox">
+<div class="filter" style="display: inline;" onchange="setpublic(<?= $p->get_id() ?>)">
+	<input type="checkbox" <?php if ($p->is_public()) { ?>checked<?php } ?>>
 	<img src="<?= '/data/content/' . $p->get_path() ?>" height="100px">
 </div>
 <?php
@@ -21,7 +21,5 @@
 	// } catch (Exception $e) {
 	// 	echo $e;
 	// }
-
-
 
 ?>
