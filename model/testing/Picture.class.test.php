@@ -27,7 +27,7 @@
 	if ($p1->is_public()) {
 		echo "set_public FAILED. 0\n";
 	}
-	$p1->set_public('1');
+	$p1->set_public();
 	if (!$p1->is_public()) {
 		echo "set_public FAILED. 1\n";
 	}

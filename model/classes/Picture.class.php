@@ -198,10 +198,10 @@
 		/*
 		** --- Set ---
 		*/
-		public function set_public($bool)
+		public function set_public()
 		{
 			$query = 'UPDATE picture SET `public` = :p WHERE id_picture = :id;';
-			$this->_db->query($query, array(':p' => $bool, ':id' => $this->_id));
+			$this->_db->query($query, array(':p' => $this->is_public() ? '1' : '0', ':id' => $this->_id));
 			$modified_row_count = $this->_db->rowCount();
 			if ($modified_row_count !== 1) {
 				throw new DatabaseException("Fail setting public. " . $modified_row_count . " rows have been modified in the database.\n");
