@@ -1,7 +1,7 @@
 <?php
-	require_once 'initialise.tests.php';
-	require_once '../classes/User.class.php';
-	require_once '../functions/hash_password.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/testing/initialise.tests.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/User.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/hash_password.php';
 
 	// construct based on id_cookie
 	$u1 = new User(2, $db);

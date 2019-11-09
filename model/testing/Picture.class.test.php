@@ -1,6 +1,6 @@
 <?php
-	require_once 'initialise.tests.php';
-	require_once '../classes/Picture.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/testing/initialise.tests.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Picture.class.php';
 
 	// construct based on id_picture
 	$p1 = new Picture(2, $db);
