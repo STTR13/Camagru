@@ -16,7 +16,7 @@
 	}
 
 	// try {
-	// 	require_once '/Users/staeter/Desktop/Camagru/model/testing/Picture.class.test.php';
+	// 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/testing/Picture.class.test.php';
 	// 	personalcontentelem($p1);
 	// } catch (Exception $e) {
 	// 	echo $e;

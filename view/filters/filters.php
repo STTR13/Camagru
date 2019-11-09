@@ -4,7 +4,7 @@
 		$amount_of_filters = 6;
 
 		?>
-<form id="filters" action="index.html" method="post" style="white-space: nowrap; overflow-x: auto; background-color: white;">
+<div id="filters" style="white-space: nowrap; overflow-x: auto; background-color: white;">
 		<?php
 
 		for ($i=0; $i < $amount_of_filters; $i++) {
@@ -19,7 +19,7 @@
 		}
 
 		?>
-</form>
+</div>
 
 <script type="text/javascript" src="../../view/filters/filters.js"></script>
 		<?php

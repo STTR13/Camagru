@@ -22,15 +22,17 @@
 		?>
 		<div id="galery" class="main container">
 			<div class="row">
-				<?php
+				<div class="col-sm" id="camera">
+					<?php
 
-					require_once '../../view/camera/camera.php';
-					html_camera(unserialize($_SESSION['db']));
+						require_once '../../view/camera/camera.php';
+						html_camera(unserialize($_SESSION['db']));
 
-					require_once $_SERVER["DOCUMENT_ROOT"] . '/view/personalcontent/personalcontentlist.php';
-					personalcontentlist(unserialize($_SESSION['user']), unserialize($_SESSION['db']));
+						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/personalcontent/personalcontentlist.php';
+						personalcontentlist(unserialize($_SESSION['user']), unserialize($_SESSION['db']));
 
-				?>
+					?>
+				</div>
 			</div>
 		</div>
 	</body>
