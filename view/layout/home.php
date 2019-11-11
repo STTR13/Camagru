@@ -27,15 +27,21 @@
 					require_once $_SERVER["DOCUMENT_ROOT"] . '/view/galery/galery.php';
 					html_galery(unserialize($_SESSION['db']));
 
-					if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
-						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/login.php';
-						html_login();
-					} else {
-						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/logout.php';
-						html_logout();
-					}
-
 				?>
+
+				<div class="col-sm-4">
+						<?php
+
+							if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
+								require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/login.php';
+								html_login();
+							} else {
+								require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/logout.php';
+								html_logout();
+							}
+
+						?>
+				</div>
 			</div>
 		</div>
 	</body>

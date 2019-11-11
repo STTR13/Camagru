@@ -3,6 +3,10 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Picture.class.php';
 	session_start();
 
+	if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
+		header('Location: ../../view/layout/home.php');
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -22,11 +26,19 @@
 		?>
 		<div id="galery" class="main container">
 			<div class="row">
-				<div class="col-sm" id="camera">
+				<div class="col-sm-8" id="camera">
 					<?php
 
 						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/camera/camera.php';
 						html_camera(unserialize($_SESSION['db']));
+
+					?>
+				</div>
+				<div class="col-sm-4" id="camera">
+					<?php
+
+						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/logout.php';
+						html_logout();
 
 						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/personalcontent/personalcontentlist.php';
 						personalcontentlist(unserialize($_SESSION['user']), unserialize($_SESSION['db']));
