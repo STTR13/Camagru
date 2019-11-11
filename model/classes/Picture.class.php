@@ -115,6 +115,27 @@
 			$this->_db = $db;
 		}
 
+		/*
+		** -------------------- Construct --------------------
+		*/
+
+		public function delete($owner) {
+			if (!User::is_valid($owner)) {
+				throw new InvalidParamException("Failed deleting " . __CLASS__ . ". Invalid user.\n", 1);
+			}
+			if ($owner->get_id() !== $this->get_user_id()) {
+				throw new InvalidParamException("Failed deleting " . __CLASS__ . ". This picture isn't owned by that user.\n", 1);
+			}
+
+			// adding new user to database and pull the id_user
+			$query = 'DELETE FROM picture WHERE id_picture = :idp;';
+			$this->_db->query($query, array(':idp' => $this->get_id()));
+			$modified_row_count = $this->_db->rowCount();
+			if ($modified_row_count !== 1) {
+				throw new DatabaseException("Fail deleting picture. " . $modified_row_count . " rows have been modified in the database.\n");
+			}
+		}
+
 
 		/*
 		** -------------------- Special functions --------------------

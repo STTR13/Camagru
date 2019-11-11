@@ -43,6 +43,9 @@
 						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/personalcontent/personalcontentlist.php';
 						personalcontentlist(unserialize($_SESSION['user']), unserialize($_SESSION['db']));
 
+						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/deletecontent/deletecontentform.php';
+						deletecontentform(unserialize($_SESSION['user']), unserialize($_SESSION['db']))
+
 					?>
 				</div>
 			</div>

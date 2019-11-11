@@ -1,4 +1,13 @@
-mail
-cookies testing
-user full testing
-combining pictures
+x delete pictures
+
+. upload image
+. likes
+. comments
+
+. mail comment confirm and pw
+. email settings
+. cookies testing
+. log avec pseudo
+. 5 elem on feed
+. index on server root
+. setup file
