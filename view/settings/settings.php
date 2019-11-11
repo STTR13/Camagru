@@ -10,7 +10,7 @@
 	<div class="head-info" style="padding-bottom: 0px;">
 		<h3 style="text-align: center; color: black;">Settings</h3>
 	</div>
-	<form class="container" action="<?= $_SERVER["DOCUMENT_ROOT"] . '/control/settings/updatesettings.php' ?>" method="post">
+	<form class="container" action="../../control/settings/updatesettings.php" method="post">
 
 		<div class="row head-info" style="padding-bottom: 0px;">
 			<div class="col-sm-2" style="text-align: right;">
