@@ -24,7 +24,7 @@
 			html_header();
 
 		?>
-		<div id="galery" class="main container">
+		<div class="main container">
 			<div class="row">
 				<div class="col-sm-8" id="camera">
 					<?php

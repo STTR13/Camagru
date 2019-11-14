@@ -14,6 +14,9 @@
 	-->
 	<video id="video" style="width: 100%; height: auto;" width="640" height="480" autoplay></video>
 	<div class="head-info" style="padding-bottom: 0px;">
+		<input type="file" name="files[]" id="file"/>
+	</div>
+	<div class="head-info" style="padding-bottom: 0px;">
 		<?php
 
 			require_once $_SERVER["DOCUMENT_ROOT"] . '/view/filters/filters.php';
@@ -40,4 +43,5 @@
 	}
 	// https://davidwalsh.name/browser-camera
 	// https://www.askingbox.com/tutorial/jquery-send-html5-canvas-to-server-via-ajax
+	// https://www.taniarascia.com/how-to-upload-files-to-a-server-with-plain-javascript-and-php/
 ?>
