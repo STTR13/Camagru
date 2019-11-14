@@ -14,10 +14,10 @@
 	<img class="picture" src="<?='/data/content/' . $p->get_path()?>">
 	<div class="foot-info">
 		<div class="like">
-			<button class="button" type="button" name="like">
+			<button class="button" type="button" onclick="like(<?= $p->get_id() ?>)">
 				<img class="like-img" src="/data/images/white-heart.png">
 			</button>
-			<div class="like-amount">13 likes</div>
+			<div id="like-amount<?= $p->get_id() ?>" class="like-amount"><?= $p->get_likes() ?> likes</div>
 		</div>
 	</div>
 </div><?php //ni: put the right amount of likes and add comments bellow

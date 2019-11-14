@@ -249,24 +249,6 @@
 
 			$this->_path = $new_path;
 		}
-		public function add_like($usr)
-		{
-			if (!User::is_valid($usr)) {
-				throw new InvalidParamException("Failed liking " . __CLASS__ . ". Invalid user.\n", 1);
-			}
-
-			$query = 'INSERT INTO `like` (`id_user`, `id_picture`) VALUES (:idu, :idp);';
-			try {
-				$this->_db->query($query, array(':idu' => $usr->get_id(), ':idp' => $this->_id));
-			} catch (Exception $e) {
-				if ($e->getCode() == 23000) {
-					throw new InvalidParamException("This user alredy liked that picture.\n", 0);
-				} else {
-					throw $e;
-				}
-			}
-		}
-
 
 		/*
 		** -------------------- Advenced gets --------------------
@@ -336,7 +318,41 @@
 
 			return new Picture($row['id_picture'], $this->_db);
 		}
+
+		/*
+		** --- like and comment ---
+		*/
 		// output format: array(<<id_comment>> => array("c" => <<content>>, <<id_response>> => array(...
 		//public function get_comments() //ni
+		public function like($usr)
+		{
+			if (!User::is_valid($usr)) {
+				throw new InvalidParamException("Failed liking " . __CLASS__ . ". Invalid user.\n", 1);
+			}
+
+			try {
+
+				// try to add row into db
+				$query = 'INSERT INTO `like` (`id_user`, `id_picture`) VALUES (:idu, :idp);';
+				$this->_db->query($query, array(':idu' => $usr->get_id(), ':idp' => $this->_id));
+
+			} catch (Exception $e) {
+				if ($e->getCode() == 23000) {
+
+					// if the row alredy exists delete it
+					$query = 'DELETE FROM `like` WHERE id_picture = :idp AND id_user = :idu;';
+					$this->_db->query($query, array(':idp' => $this->get_id(), ':idu' => $usr->get_id()));
+
+					// if a problem happened on deletion throw DatabaseException
+					$modified_row_count = $this->_db->rowCount();
+					if ($modified_row_count !== 1) {
+						throw new DatabaseException("Fail deleting like. " . $modified_row_count . " rows have been modified in the database.\n");
+					}
+
+				} else {
+					throw $e;
+				}
+			}
+		}
 	}
 ?>
