@@ -179,6 +179,14 @@
 		{
 			return $this->_date;
 		}
+		public function get_likes()
+		{
+			// query from database
+			$query = "SELECT COUNT(id_user) AS likes FROM `like` WHERE id_picture = :idp;";
+			$this->_db->query($query, array(':idp' => $this->get_id()));
+			$row = $this->_db->fetch();
+			return $row['likes'];
+		}
 
 
 		/*
@@ -240,6 +248,23 @@
 			}
 
 			$this->_path = $new_path;
+		}
+		public function add_like($usr)
+		{
+			if (!User::is_valid($usr)) {
+				throw new InvalidParamException("Failed liking " . __CLASS__ . ". Invalid user.\n", 1);
+			}
+
+			$query = 'INSERT INTO `like` (`id_user`, `id_picture`) VALUES (:idu, :idp);';
+			try {
+				$this->_db->query($query, array(':idu' => $usr->get_id(), ':idp' => $this->_id));
+			} catch (Exception $e) {
+				if ($e->getCode() == 23000) {
+					throw new InvalidParamException("This user alredy liked that picture.\n", 0);
+				} else {
+					throw $e;
+				}
+			}
 		}
 
 
