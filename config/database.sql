@@ -88,9 +88,8 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `id_comment` INT UNSIGNED AUTO_INCREMENT NOT NULL,
   `id_user` INT UNSIGNED,
   `id_picture` INT UNSIGNED NOT NULL,
-  `id_respond_to` INT UNSIGNED,
   `date` DATETIME NOT NULL DEFAULT NOW(),
-  `content` VARCHAR(255),
+  `content` TEXT,
 
   PRIMARY KEY (`id_comment`),
 
@@ -101,11 +100,6 @@ CREATE TABLE IF NOT EXISTS `comment` (
 
   FOREIGN KEY (`id_picture`)
   REFERENCES `picture`(`id_picture`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
-
-  FOREIGN KEY (`id_respond_to`)
-  REFERENCES `comment`(`id_comment`)
   ON DELETE CASCADE
   ON UPDATE CASCADE
 );

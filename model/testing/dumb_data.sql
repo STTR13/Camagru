@@ -25,3 +25,19 @@ VALUES
 	(1, "dumb_path4.jpg", 1),
 	(3, "dumb_path5.jpg", 1),
 	(1, "dumb_path6.jpg", 1);
+
+INSERT INTO `comment`
+	(`id_user`, `id_picture`, `content`)
+VALUES
+	(2, 6, "I like to say stuf."),
+	(4, 6, "Me too it's craisy!"),
+	(3, 1, "I love you"),
+	(1, 1, "Wow"),
+	(3, 4, "Just WOW!"),
+	(1, 2, "I LOVE IT"),
+	(2, 3, "I'm loving it"),
+	(4, 3, "Join our army! Conquer zone 51"),
+	(3, 1, "LEEEEEEROOOOYY JENKINS!!!!!!!"),
+	(1, 6, "press f"),
+	(3, 3, "Pantouflar, attack flemme! C'est super efficace!"),
+	(1, 5, "first!");
