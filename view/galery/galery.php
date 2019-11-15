@@ -20,6 +20,7 @@
 </div>
 <script type="text/javascript" src="../../view/galery/galery.js"></script>
 <script type="text/javascript" src="../../view/galery/like.js"></script>
+<script type="text/javascript" src="../../view/galery/comment.js"></script>
 
 <?php
 	}

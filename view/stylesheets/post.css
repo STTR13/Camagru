@@ -53,6 +53,7 @@ date {
 }
 .comment-img {
 	width: 39px;
+	cursor: pointer;
 }
 .comment {
 	float: right;

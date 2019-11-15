@@ -20,7 +20,7 @@
 			<div id="like-amount<?= $p->get_id() ?>" class="like-amount"><?= $p->get_likes() ?> likes</div>
 		</div>
 		<div class="comment">
-			<img class="comment-img" src="/data/images/comment.png">
+			<img class="comment-img" src="/data/images/comment.png" onclick="comment(<?= $p->get_id() ?>)">
 			<div id="comment-amount<?= $p->get_id() ?>" class="like-amount"><?= $p->get_comment_amount() ?> comments</div>
 		</div>
 	</div>

@@ -187,6 +187,14 @@
 			$row = $this->_db->fetch();
 			return $row['likes'];
 		}
+		public function get_comment_amount()
+		{
+			// query from database
+			$query = "SELECT COUNT(id_comment) AS comments_amount FROM `comment` WHERE id_picture = :idp;";
+			$this->_db->query($query, array(':idp' => $this->get_id()));
+			$row = $this->_db->fetch();
+			return $row['comments_amount'];
+		}
 
 
 		/*
@@ -322,8 +330,14 @@
 		/*
 		** --- like and comment ---
 		*/
-		// output format: array(<<id_comment>> => array("c" => <<content>>, <<id_response>> => array(...
-		//public function get_comments() //ni
+		// output format: array(array('id' => ..., 'content' => ..., 'pseudo' => ..., 'date' => ...), ...)
+		public function get_comments()
+		{
+			$query = "SELECT id_comment AS id, content, pseudo, comment.`date` AS `date` FROM comment JOIN user ON comment.id_user = user.id_user WHERE id_picture = :idp;";
+			$this->_db->query($query, array(':idp' => $this->get_id()));
+			$row = $this->_db->fetchAll();
+			return $row;
+		}
 		public function like($usr)
 		{
 			if (!User::is_valid($usr)) {
