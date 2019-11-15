@@ -19,6 +19,10 @@
 			</button>
 			<div id="like-amount<?= $p->get_id() ?>" class="like-amount"><?= $p->get_likes() ?> likes</div>
 		</div>
+		<div class="comment">
+			<img class="comment-img" src="/data/images/comment.png">
+			<div id="comment-amount<?= $p->get_id() ?>" class="like-amount"><?= $p->get_comment_amount() ?> comments</div>
+		</div>
 	</div>
 </div><?php //ni: put the right amount of likes and add comments bellow
 	}

@@ -2,7 +2,7 @@ x delete pictures
 
 x upload image
 
-. likes
+x likes
 . comments
 . cookies testing
 

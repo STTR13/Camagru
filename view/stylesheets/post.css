@@ -10,10 +10,6 @@
 	padding: 16px;
 	margin: 0px;
 }
-.foot-info {
-	padding: 16px;
-	margin: 0px;
-}
 .picture {
 	width: inherit;
 }
@@ -26,10 +22,16 @@ date {
 	display: block;
 	color: #b5b6b6;
 }
+
+.foot-info {
+	padding: 16px;
+	margin: 0px;
+	height: 73px;
+}
 .button {
 	border-radius: 100%;
-	width: 2.7em;
-	height: 2.7em;
+	width: 43px;
+	height: 43px;
 	border: none;
 	padding: 0px;
 	margin: 0px;
@@ -38,15 +40,20 @@ date {
 	cursor: pointer;
 }
 .like {
-
+	float: left;
 }
 .like-img {
-	width: 1.7em;
+	width: 25px;
 	position: relative;
-	top: 0.15em;
-	left: 0em;
+	top: 1px;
+	left: 0px;
 }
 .like-amount {
 	display: inline-block;
-	font-size: 1em;
+}
+.comment-img {
+	width: 39px;
+}
+.comment {
+	float: right;
 }
