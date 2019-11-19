@@ -1,11 +1,9 @@
 x delete pictures
-
 x upload image
-
 x likes
-. comments
-. cookies testing
 
+~ comments
+. cookies testing
 . mail comment confirm and pw
 . email settings
 . log avec pseudo

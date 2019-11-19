@@ -6,8 +6,8 @@
 	$username = "root";
 	$password = "password";
 	$dsn = 'mysql:host='.$hostname.';port=3306;charset=utf8';
-	$setup_file = '../../config/database.sql';
-	$dumb_data_file = '../../model/testing/dumb_data.sql';
+	$setup_file = $_SERVER["DOCUMENT_ROOT"] . '/config/database.sql';
+	$dumb_data_file = $_SERVER["DOCUMENT_ROOT"] . '/model/testing/dumb_data.sql';
 	$dbname = 'testdb';
 	$id_cookie_name = 'id_cookie';
 

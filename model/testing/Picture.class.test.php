@@ -70,14 +70,7 @@
 		}
 
 		// add_like
-		$p1->add_like($u);
-		try {
-			$p1->add_like($u);
-		} catch (Exception $e) {
-			if ($e->getCode() !== 0) {
-				echo "add_like FAILED: wrong exception throwed (error code " . $e->getCode() . " instead of 0)\n";
-			}
-		}
+		$p1->like($u);
 
 		$tmp = $p1->get_likes();
 		if ($tmp !== '1') {
