@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/view/stylesheets/header.css">
 <link rel="stylesheet" href="/view/stylesheets/button.css">
 <link rel="stylesheet" href="/view/stylesheets/filters.css">
+<link rel="stylesheet" href="/view/stylesheets/overlay.css">
 
 <?php
 	}
