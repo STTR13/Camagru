@@ -32,8 +32,13 @@
 
 					?>
 				</div>
-				<div class="">
-
+				<div class="row head-info">
+					<div class="col-sm-10">
+						<input type="text" name="comment" style="border: none; width: 100%">
+					</div>
+					<div class="col-sm-2" style="text-align: center;">
+						<input type="submit" value="send" class="insto-button">
+					</div>
 				</div>
 			</div>
 		</div>
