@@ -1,7 +1,7 @@
 <?php
 
 	// $c = array('id' => ..., 'content' => ..., 'pseudo' => ..., 'date' => ...)
-	function comment($c) {
+	function html_comment($c) {
 
 ?>
 <div class="row head-info" id="comment<?=$c['id']?>" style="padding-bottom: 0px;">

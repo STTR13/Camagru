@@ -15,6 +15,7 @@
 </div>
 
 <script type="text/javascript" src="../../view/comments/commentsoverlaymenu.js"></script>
+<script type="text/javascript" src="../../view/comments/addcomment.js"></script>
 <?php
 
 	}
