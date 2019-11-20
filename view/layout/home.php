@@ -44,5 +44,11 @@
 				</div>
 			</div>
 		</div>
+		<?php
+
+			require_once $_SERVER["DOCUMENT_ROOT"] . '/view/comments/commentsoverlaymenu.php';
+			html_commentsoverlaymenu();
+
+		?>
 	</body>
 </html>
