@@ -231,7 +231,6 @@
 			return preg_match($patern, $path) ? TRUE : FALSE;
 		}
 
-
 		/*
 		** --- Set ---
 		*/
@@ -333,10 +332,23 @@
 		// output format: array(array('id' => ..., 'content' => ..., 'pseudo' => ..., 'date' => ...), ...)
 		public function get_comments()
 		{
-			$query = "SELECT id_comment AS id, content, pseudo, comment.`date` AS `date` FROM comment JOIN user ON comment.id_user = user.id_user WHERE id_picture = :idp;";
+			$query = "SELECT id_comment AS id, content, pseudo, comment.`date` AS `date` FROM comment JOIN user ON comment.id_user = user.id_user WHERE id_picture = :idp ORDER BY comment.`date` ASC;";
 			$this->_db->query($query, array(':idp' => $this->get_id()));
 			$row = $this->_db->fetchAll();
 			return $row;
+		}
+		public function add_comment($usr, $content)
+		{
+			if (!User::is_valid($usr)) {
+				throw new InvalidParamException("Failed liking " . __CLASS__ . ". Invalid user.\n", 1);
+			}
+
+			try {
+				$query = 'INSERT INTO `comment` (`id_user`, `id_picture`, `content`) VALUES (:idu, :idp, :c);';
+				$this->_db->query($query, array(':idu' => $usr->get_id(), ':idp' => $this->get_id(), ':c' => $content));
+			} catch (Exception $e) {
+				echo $e;
+			}
 		}
 		public function like($usr)
 		{

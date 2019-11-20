@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `like` (
 
 CREATE TABLE IF NOT EXISTS `comment` (
   `id_comment` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  `id_user` INT UNSIGNED,
+  `id_user` INT UNSIGNED NOT NULL,
   `id_picture` INT UNSIGNED NOT NULL,
   `date` DATETIME NOT NULL DEFAULT NOW(),
   `content` TEXT,

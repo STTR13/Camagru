@@ -1,6 +1,7 @@
 function addComment(clicked_id) {
 	var xhttp = new XMLHttpRequest();
 	var content = document.getElementById('content-new-comment').value;
+	//console.log(content);
 
 	xhttp.onreadystatechange = function() {
 		//console.log(this.readyState + " : " + this.status);

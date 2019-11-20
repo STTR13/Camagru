@@ -6,7 +6,7 @@
 
 	try {
 		$picture = new Picture($_POST['picture_id'], unserialize($_SESSION['db']));
-	
+		$picture->add_comment(unserialize($_SESSION['user']), $_POST['content']);
 
 		// return updated comments
 		$comments = $picture->get_comments();
