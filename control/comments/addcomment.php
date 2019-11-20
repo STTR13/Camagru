@@ -7,14 +7,14 @@
 	try {
 		$picture = new Picture($_POST['picture_id'], unserialize($_SESSION['db']));
 		$picture->add_comment(unserialize($_SESSION['user']), $_POST['content']);
+	} catch (Exception $e) {
 
+	} finally {
 		// return updated comments
 		$comments = $picture->get_comments();
 		foreach ($comments as $comment) {
 			html_comment($comment);
 		}
-	} catch (Exception $e) {
-		echo $e;
 	}
 
 ?>
