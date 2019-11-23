@@ -72,11 +72,11 @@
 			$this->_db = $db;
 		}
 
-		private function __construct3($email, $hashed_password, $db)
+		private function __construct3($pseudo, $hashed_password, $db)
 		{
 			// test parameters validity
-			if (!User::is_valid_email($email)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid email.", 31);
+			if (!User::is_valid_pseudo($pseudo)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid pseudo.", 31);
 			}
 			if (!User::is_valid_hashed_password($hashed_password)) {
 				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid hashed password.", 32);
@@ -86,17 +86,17 @@
 			}
 
 			// query from database
-			$query = 'SELECT id_user, pseudo FROM user WHERE email = :em AND password = :pw;';
-			$db->query($query, array(':em' => $email, ':pw' => $hashed_password));
+			$query = 'SELECT id_user, email FROM user WHERE pseudo = :ps AND password = :pw;';
+			$db->query($query, array(':ps' => $pseudo, ':pw' => $hashed_password));
 			$row = $db->fetch();
 			if ($row === false) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". User-password combination not found in database.", 30);
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Pseudo-password combination not found in database.", 30);
 			}
 
 			// set object properties
 			$this->_id = $row['id_user'];
-			$this->_pseudo = $row['pseudo'];
-			$this->_email = $email;
+			$this->_pseudo = $pseudo;
+			$this->_email = $row['pseudo'];
 			$this->_db = $db;
 		}
 

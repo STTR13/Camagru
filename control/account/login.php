@@ -5,7 +5,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
 	try {
-		$usr = new User($_POST['email'], hash_password($_POST['password']), unserialize($_SESSION['db']));
+		$usr = new User($_POST['pseudo'], hash_password($_POST['password']), unserialize($_SESSION['db']));
 		$_SESSION['user'] = serialize($usr);
 		header('Location: ../../view/layout/index.php');
 	} catch (Exception $e) {

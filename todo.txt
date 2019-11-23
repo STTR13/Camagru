@@ -1,12 +1,13 @@
 x delete pictures
 x upload image
 x likes
+x comments
+x log avec pseudo
+x 5 elem on feed
 
-~ comments
-. cookies testing
-. mail comment confirm and pw
 . email settings
-. log avec pseudo
-. 5 elem on feed
 . index on server root
 . setup file
+
+. cookies testing
+. mail comment confirm and pw

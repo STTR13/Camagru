@@ -7,8 +7,8 @@
 <div id="login" class="post" style="display: block;">
 	<form action="../../control/account/login.php" class="head-info" method="post">
 		<h3 style="text-align: center; color: black;">Log-in</h3>
-		Email:<br>
-		<input type="text" name="email" value="" style="border: none; width: 100%;">
+		Pseudo:<br>
+		<input type="text" name="pseudo" value="" style="border: none; width: 100%;">
 		<br>
 		Password:<br>
 		<input type="password" name="password" value="" style="border: none; width: 100%;">
