@@ -4,8 +4,8 @@ x likes
 x comments
 x log avec pseudo
 x 5 elem on feed
+x email settings
 
-. email settings
 . index on server root
 . setup file
 

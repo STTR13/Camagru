@@ -10,7 +10,7 @@
 	$b = false;
 
 	if ($usr->get_pseudo() !== $_POST['pseudo']) {
-		echo "came here 1";
+		// echo "came here 1";
 		try {
 			$usr->set_pseudo($_POST['pseudo']);
 		} catch (Exception $e) {
@@ -27,7 +27,7 @@
 	}
 
 	if ($usr->get_email() !== $_POST['email']) {
-		echo "came here 2";
+		// echo "came here 2";
 		try {
 			$usr->set_email($_POST['email']);
 		} catch (Exception $e) {
@@ -43,10 +43,25 @@
 		}
 	}
 
-	//ni: mail pref
+	if ($usr->get_pref_mail_notifications() !== array_key_exists('emailpref', $_POST)) {
+		//echo "came here";
+		try {
+			$usr->set_pref_mail_notifications();
+		} catch (Exception $e) {
+			$b = true;
+
+			?><script type='text/javascript'>
+				alert('<?= $e ?>');
+				window.location.href='../../view/layout/settings.php';
+			</script><?php
+
+		} finally {
+			$_SESSION['user'] = serialize($usr);
+		}
+	}
 
 	if ($_POST['oldpw'] != '' && $_POST['newpw'] != '') {
-		echo "came here 3";
+		// echo "came here 3";
 		try {
 			$usr->set_password(hash_password($_POST['oldpw']), hash_password($_POST['newpw']));
 		} catch (Exception $e) {

@@ -33,7 +33,7 @@
 		<div class="row head-info" style="padding-bottom: 0px; padding-top: 3px;">
 			<div class="col-sm-2" style="text-align: right;"></div>
 			<div class="col-sm" style="text-align: left;">
-				<input type="checkbox" name="emailpref" <?php //ni ?> style="display: inline;">
+				<input type="checkbox" name="emailpref" <?php if ($usr->get_pref_mail_notifications()) { ?>checked<?php } ?> style="display: inline;">
 				<div style="display: inline; font-size: 0.7em; color: #b5b6b6;">Receive news by email</div>
 			</div>
 		</div>

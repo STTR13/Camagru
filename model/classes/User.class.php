@@ -96,7 +96,7 @@
 			// set object properties
 			$this->_id = $row['id_user'];
 			$this->_pseudo = $pseudo;
-			$this->_email = $row['pseudo'];
+			$this->_email = $row['email'];
 			$this->_db = $db;
 		}
 
@@ -212,7 +212,16 @@
 				throw new DatabaseException("Fail setting password. " . $modified_row_count . " rows have been modified in the database.");
 			}
 		}
-		//public function set_pref_mail_notification() //ni
+		public function set_pref_mail_notifications()
+		{
+			// update db
+			$query = 'UPDATE user SET pref_mail_notifications = :pmn WHERE id_user = :id;';
+			$this->_db->query($query, array(':pmn' => $this->get_pref_mail_notifications() ? '0' : '1', ':id' => $this->_id));
+			$modified_row_count = $this->_db->rowCount();
+			if ($modified_row_count !== 1) {
+				throw new DatabaseException("Fail setting pref_mail_notifications. " . $modified_row_count . " rows have been modified in the database.");
+			}
+		}
 
 		/*
 		** -------------------- Get --------------------
@@ -229,7 +238,19 @@
 		{
 			return $this->_email;
 		}
-		//public function get_pref_mail_notification() //ni
+		public function get_pref_mail_notifications()
+		{
+			// query from database
+			$query = 'SELECT pref_mail_notifications FROM user WHERE id_user = :id;';
+			$this->_db->query($query, array(':id' => $this->get_id()));
+			$row = $this->_db->fetch();
+			if ($row === false) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Id not found in database.");
+			}
+
+			//echo 'get_pref_mail_notifications: "' . (($row['pref_mail_notifications'] == '1' ? true : false) ? 't'  . '"' : 'f' . '"');
+			return $row['pref_mail_notifications'] == '1' ? true : false;
+		}
 
 		/*
 		** -------------------- Is valid --------------------

@@ -26,7 +26,7 @@
 		?>
 		<div class="main container">
 			<div class="row">
-				<div class="col-sm-8" id="camera">
+				<div class="col-sm-8" id="settings">
 					<?php
 
 						require_once $_SERVER["DOCUMENT_ROOT"] . '/view/settings/settings.php';
