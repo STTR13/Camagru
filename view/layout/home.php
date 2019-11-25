@@ -1,7 +1,6 @@
 <?php
 
-	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Picture.class.php';
-	session_start();
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/view/layout/init.php';
 
 ?>
 <!DOCTYPE html>
@@ -25,14 +24,14 @@
 				<?php
 
 					require_once $_SERVER["DOCUMENT_ROOT"] . '/view/galery/galery.php';
-					html_galery(unserialize($_SESSION['db']));
+					html_galery($db);
 
 				?>
 
 				<div class="col-sm-4">
 						<?php
 
-							if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
+							if (!User::is_logged($_SESSION)) {
 								require_once $_SERVER["DOCUMENT_ROOT"] . '/view/account/login.php';
 								html_login();
 							} else {

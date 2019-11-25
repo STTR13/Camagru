@@ -1,10 +1,9 @@
 <?php
 
-	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Picture.class.php';
-	session_start();
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/view/layout/init.php';
 
-	if (!array_key_exists('user', $_SESSION) || $_SESSION['user'] == null) {
-		header('Location: ../../view/layout/home.php');
+	if (!User::is_logged($_SESSION)) {
+		header('Location: /view/layout/home.php');
 	}
 
 ?>

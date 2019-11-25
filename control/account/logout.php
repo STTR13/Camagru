@@ -9,5 +9,5 @@
 
 	$_SESSION['user'] = null;
 	//unlink_cookie(unserialize($_SESSION['db']), $_COOKIE[$id_cookie_name]);
-	header('Location: ../../view/layout/index.php');
+	header('Location: ../../view/layout/home.php');
 ?>

@@ -14,7 +14,7 @@
 	try {
 		$usr = new User($_POST['pseudo'], $_POST['email'], hash_password($_POST['password']), unserialize($_SESSION['db']));
 		$_SESSION['user'] = serialize($usr);
-		header('Location: ../../view/layout/index.php');
+		header('Location: ../../view/layout/home.php');
 	} catch (Exception $e) {
 
 		?><script type='text/javascript'>

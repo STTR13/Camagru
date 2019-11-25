@@ -323,6 +323,17 @@
 		{
 			return gettype($user) === 'object' && get_class($user) === __CLASS__;
 		}
+		function is_logged($session)
+		{
+			if (!array_key_exists('user', $session) ||
+				$session['user'] == null ||
+				$session['user'] == "" ||
+				!User::is_valid(unserialize($session['user'])))
+			{
+				return false;
+			}
+			return true;
+		}
 
 		/*
 		** -------------------- Tools --------------------

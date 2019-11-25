@@ -5,9 +5,8 @@ x comments
 x log avec pseudo
 x 5 elem on feed
 x email settings
-
-. index on server root
-. setup file
+x index on server root
+x setup file
 
 . cookies testing
 . mail comment confirm and pw

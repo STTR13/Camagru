@@ -1,18 +1,43 @@
 <?php
-	include 'database.php';
+	require $_SERVER["DOCUMENT_ROOT"] . '/config/database.php';
+	require $_SERVER["DOCUMENT_ROOT"] . '/config/variables.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
-	console.log("Connecting to the database..."); //ni: write
-	try {
-	    $db = new PDO($dsn, $username, $password);
-	} catch(PDOException $e) {
-		//ni: pop a neeter error page
-		//ni: try to setup a new db by copying one on an other server
-		//ni: send report to main log
-	    exit('Could not connect to mysql: '.$e);
+	// /!\ the present database will be deleted if set to true /!\
+	$reset_db = false;
+	$insert_dumb_data = false; // reset_db has to be true to apply
+	$dumb_data_file = $_SERVER["DOCUMENT_ROOT"] . '/model/testing/dumb_data.sql';
+
+
+
+	echo "Connecting to the database...<br>";
+	try
+	{
+		if ($reset_db)
+		{
+			echo "Reset of the database...<br>";
+
+			$db = new Database($dsn, $username, $password);
+			$db->exec("DROP DATABASE IF EXISTS `" . $dbname . "`;");
+			$db->exec("CREATE DATABASE IF NOT EXISTS `" . $dbname . "`; USE `" . $dbname . "`;");
+
+			$db = new Database($dsn . ";dbname=" . $dbname, $username, $password);
+			$db->exec(file_get_contents($setup_file));
+			if ($insert_dumb_data)
+			{
+				echo "Dumb data insertion...<br>";
+
+				$db->exec(file_get_contents($dumb_data_file));
+			}
+		}
+		else
+		{
+			$db = new Database($dsn . ";dbname=" . $dbname, $username, $password);
+		}
 	}
-	console.log("Connection established succesfuly.");
-
-	//ni: make sure the db is up-to-date
-	$db->exec("CREATE DATABASE IF NOT EXISTS `camagru`; USE `camagru`;");
-	$db->exec(file_get_contents($setup_file));
+	catch(PDOException $e) {
+	    echo ('Error while connecting to mysql server: ' . $e . '<br>');
+		exit;
+	}
+	echo "Connection established succesfuly.<br>";
 ?>
