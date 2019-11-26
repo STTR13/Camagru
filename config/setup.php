@@ -4,8 +4,8 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
 	// /!\ the present database will be deleted if set to true /!\
-	$reset_db = false;
-	$insert_dumb_data = false; // reset_db has to be true to apply
+	$reset_db = true;
+	$insert_dumb_data = true; // reset_db has to be true to apply
 	$dumb_data_file = $_SERVER["DOCUMENT_ROOT"] . '/model/testing/dumb_data.sql';
 
 
@@ -26,7 +26,7 @@
 			if ($insert_dumb_data)
 			{
 				echo "Dumb data insertion...<br>";
-
+				
 				$db->exec(file_get_contents($dumb_data_file));
 			}
 		}

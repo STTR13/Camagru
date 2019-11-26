@@ -7,6 +7,6 @@ x 5 elem on feed
 x email settings
 x index on server root
 x setup file
+x cookies testing
 
-. cookies testing
 . mail comment confirm and pw
