@@ -9,6 +9,7 @@
 			alert('Password and confirmed password are different');
 			window.location.href='../../view/layout/index.php';
 		</script><?php
+		die;
 	}
 
 	try {
@@ -22,5 +23,5 @@
 			window.location.href='../../view/layout/index.php';
 		</script><?php
 
-	}//ni: link cookie
+	}
 ?>

@@ -29,18 +29,18 @@ CREATE TABLE IF NOT EXISTS `account_verification` (
 
 
 
-CREATE TABLE IF NOT EXISTS `cookie` (
-  `id_cookie` INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  `id_user` INT UNSIGNED,
-  `creation_date` DATETIME NOT NULL DEFAULT NOW(),
-
-  PRIMARY KEY (`id_cookie`),
-
-  FOREIGN KEY (`id_user`)
-  REFERENCES `user`(`id_user`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE
-);
+-- CREATE TABLE IF NOT EXISTS `cookie` (
+--   `id_cookie` INT UNSIGNED AUTO_INCREMENT NOT NULL,
+--   `id_user` INT UNSIGNED,
+--   `creation_date` DATETIME NOT NULL DEFAULT NOW(),
+--
+--   PRIMARY KEY (`id_cookie`),
+--
+--   FOREIGN KEY (`id_user`)
+--   REFERENCES `user`(`id_user`)
+--   ON DELETE CASCADE
+--   ON UPDATE CASCADE
+-- );
 
 
 

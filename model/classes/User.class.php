@@ -47,30 +47,30 @@
 			}
 		}
 
-		private function __construct2($id_cookie, $db)
-		{
-			// test parameters validity
-			if (!User::is_valid_id($id_cookie)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.", 21);
-			}
-			if (!Database::is_valid($db)) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.", 22);
-			}
-
-			// query from database
-			$query = "SELECT user.id_user, pseudo, email FROM user JOIN cookie ON cookie.id_user = user.id_user WHERE id_cookie = :idc;";
-			$db->query($query, array(':idc' => $id_cookie));
-			$row = $db->fetch();
-			if ($row === false) {
-				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". id_cookie not found in database.", 30);
-			}
-
-			// set object properties
-			$this->_id = $row['id_user'];
-			$this->_pseudo = $row['pseudo'];
-			$this->_email = $row['email'];
-			$this->_db = $db;
-		}
+		// private function __construct2($id_cookie, $db)
+		// {
+		// 	// test parameters validity
+		// 	if (!User::is_valid_id($id_cookie)) {
+		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.", 21);
+		// 	}
+		// 	if (!Database::is_valid($db)) {
+		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.", 22);
+		// 	}
+		//
+		// 	// query from database
+		// 	$query = "SELECT user.id_user, pseudo, email FROM user JOIN cookie ON cookie.id_user = user.id_user WHERE id_cookie = :idc;";
+		// 	$db->query($query, array(':idc' => $id_cookie));
+		// 	$row = $db->fetch();
+		// 	if ($row === false) {
+		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". id_cookie not found in database.", 30);
+		// 	}
+		//
+		// 	// set object properties
+		// 	$this->_id = $row['id_user'];
+		// 	$this->_pseudo = $row['pseudo'];
+		// 	$this->_email = $row['email'];
+		// 	$this->_db = $db;
+		// }
 
 		private function __construct3($pseudo, $hashed_password, $db)
 		{
@@ -275,12 +275,12 @@
 			$patern = "/^[a-f0-9]{128}$/"; // related to hash_password()
 			return preg_match($patern, $password) ? TRUE : FALSE;
 		}
-		public static function is_valid_id($id_cookie)
+		public static function is_valid_id($id)
 		{
-			if (gettype($id_cookie) === 'integer' && $id_cookie > 0) {
+			if (gettype($id) === 'integer' && $id > 0) {
 				return TRUE;
 			}
-			if (gettype($id_cookie) === 'string' && preg_match("/^[1-9][0-9]*$/", $id_cookie)) {
+			if (gettype($id) === 'string' && preg_match("/^[1-9][0-9]*$/", $id)) {
 				return TRUE;
 			}
 			return FALSE;
@@ -338,19 +338,19 @@
 		/*
 		** -------------------- Tools --------------------
 		*/
-		public function link_cookie($id_cookie) {
-			if (!User::is_valid_id($id_cookie)) {
-				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid id_cookie.", 1);
-			}
-
-			// update db
-			$query = 'UPDATE cookie SET id_user = :idu WHERE id_cookie = :idc;';
-			$this->_db->query($query, array(':idu' => $this->_id, ':idc' => $id_cookie));
-			$modified_row_count = $this->_db->rowCount();
-			if ($modified_row_count !== 1) {
-				throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.");
-			}
-		}
+		// public function link_cookie($id_cookie) {
+		// 	if (!User::is_valid_id($id_cookie)) {
+		// 		throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid id_cookie.", 1);
+		// 	}
+		//
+		// 	// update db
+		// 	$query = 'UPDATE cookie SET id_user = :idu WHERE id_cookie = :idc;';
+		// 	$this->_db->query($query, array(':idu' => $this->_id, ':idc' => $id_cookie));
+		// 	$modified_row_count = $this->_db->rowCount();
+		// 	if ($modified_row_count !== 1) {
+		// 		throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.");
+		// 	}
+		// }
 
 		/*
 		** -------------------- Activities -------------------- //ni
