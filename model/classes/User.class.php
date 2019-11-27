@@ -134,6 +134,10 @@
 			$this->_pseudo = $pseudo;
 			$this->_email = $email;
 			$this->_db = $db;
+
+			// account verification
+			$query = 'INSERT INTO account_verification (account_verification_key, id_user) VALUES (FLOOR(RAND()*1000000000000000), :idu);';
+			$db->query($query, array(':idu' => $this->_id)); //ni
 		}
 
 
