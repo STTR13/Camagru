@@ -8,8 +8,8 @@
 	{
 		$a = func_get_args();
 		$i = func_num_args();
-		if (method_exists($this, $f = 'send_mail' . $i)) {
-			return call_user_func_array(array($this,$f),$a);
+		if (function_exists($f = 'send_mail' . $i)) {
+			return call_user_func_array($f,$a);
 		}
 		else {
 			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Wrong amount of parameters ($i).", 0);
@@ -17,7 +17,7 @@
 	}
 
 	function send_mail3($usr, $subject , $message) {
-		return mail($usr->get_email(), $subject , $message);
+		return mail($usr->get_email(), $subject , wordwrap($message,70), "From: mydumbwebsite@insto.com");
 	}
 
 	function send_mail4($id_user, $db, $subject , $message) {
@@ -32,7 +32,7 @@
 			throw new DatabaseException("Fail running" . __FUNCTION__ . ". `id_user` not found in database.", 41);
 		}
 
-		return mail($row['email'], $subject , $message);
+		return mail($row['email'], $subject , wordwrap($message,70), "From: mydumbwebsite@insto.com");
 	}
 
 ?>
