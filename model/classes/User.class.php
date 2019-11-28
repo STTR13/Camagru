@@ -1,6 +1,7 @@
 <?php
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/InvalidParamException.class.php';
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/exceptions/DatabaseException.class.php';
+	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/functions/send_mail.php';
 
 	class User {
 		private $_id;
@@ -134,10 +135,6 @@
 			$this->_pseudo = $pseudo;
 			$this->_email = $email;
 			$this->_db = $db;
-
-			// account verification
-			$query = 'INSERT INTO account_verification (account_verification_key, id_user) VALUES (FLOOR(RAND()*1000000000000000), :idu);';
-			$db->query($query, array(':idu' => $this->_id)); //ni
 		}
 
 
@@ -159,8 +156,28 @@
 		/*
 		** -------------------- Account verification --------------------
 		*/
-		// public function send_account_verification_request() //ni
-		// public function receive_account_verification_request($unique_key) //ni
+		public function send_account_verification_request($server_url) {
+			$query = 'INSERT INTO account_verification (account_verification_key, id_user) VALUES ((SELECT FLOOR(RAND()*1000000000000000) AS random_key), :idu);';
+			$this->_db->query($query, array(':idu' => $this->_id));
+			$query = 'SELECT account_verification_key FROM account_verification WHERE id_user = :idu;';
+			$this->_db->query($query, array(':idu' => $this->_id));
+			$row = $this->_db->fetch();
+			if ($row === false) {
+				throw new DatabaseException("Failed constructing " . __CLASS__ . ". Id not pulled from db.");
+			}
+
+			send_mail(
+				$this,
+				"INSTO: account confirmation link.",
+				$server_url . '?a=' . $this->get_id() . '&b=' . $row['account_verification_key']
+			);
+		}
+		public function receive_account_verification_request($a, $b) {
+
+		}
+		public function is_validated_account() {
+
+		}
 
 
 		/*
@@ -355,11 +372,5 @@
 		// 		throw new DatabaseException("Fail linking cookie. " . $modified_row_count . " rows have been modified in the database.");
 		// 	}
 		// }
-
-		/*
-		** -------------------- Activities -------------------- //ni
-		*/
-		//public function like($picture)
-		//public function comment($picture, $content, $respond_to = null)
 	}
 ?>
