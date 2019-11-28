@@ -63,7 +63,10 @@
 	if ($_POST['oldpw'] != '' && $_POST['newpw'] != '') {
 		// echo "came here 3";
 		try {
-			$usr->set_password(hash_password($_POST['oldpw']), hash_password($_POST['newpw']));
+			if (!$usr->is_correct_password(hash_password($_POST['oldpw']))) {
+				throw new InvalidParamException("Fail setting password. Wrong old password.");
+			}
+			$usr->set_password(hash_password($_POST['newpw']));
 		} catch (Exception $e) {
 			$b = true;
 

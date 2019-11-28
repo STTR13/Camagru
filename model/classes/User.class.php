@@ -221,7 +221,7 @@
 			if (!Database::is_valid($db)) {
 				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid db object.", 2);
 			}
-			
+
 			// query from database to make sure the email is linked with a user
 			$query = "SELECT id_user FROM user WHERE email = :m;";
 			$db->query($query, array(':m' => $email));
@@ -256,6 +256,29 @@
 				"INSTO: account retrieval link.",
 				$server_url . '?a=' . $id_user . '&b=' . $account_retrieval_request_key
 			);
+		}
+		public static function receive_account_retrieval($a, $b, $db)
+		{
+			if (!User::is_valid_id($a)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid a param.", 1);
+			}
+			if (!preg_match("/^[1-9][0-9]*$/", $b)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid b param.", 2);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid db object.", 3);
+			}
+
+			// delete account_verification entry from database
+			$query = 'DELETE FROM account_retrieval_requests WHERE account_retrieval_request_key = :key AND id_user = :idu;';
+			$db->query($query, array(':idu' => $a, ':key' => $b));
+			$modified_row_count = $db->rowCount();
+			if ($modified_row_count !== 1) {
+				throw new InvalidParamException("Account retieval failed. a-b combination not found in database.");
+			}
+
+			// return the user to log him in
+			return new User($a, $db);
 		}
 
 
@@ -295,11 +318,8 @@
 
 			$this->_email = $new;
 		}
-		public function set_password($hashed_old, $hashed_new)
+		public function set_password($hashed_new)
 		{
-			if (!User::is_correct_password($hashed_old, $this->_db)) {
-				throw new InvalidParamException("Fail setting password. Wrong old password.", 2);
-			}
 			if (!User::is_valid_hashed_password($hashed_new)) {
 				throw new InvalidParamException("Fail setting password. Invalid new password.", 2);
 			}

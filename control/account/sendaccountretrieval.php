@@ -4,7 +4,7 @@
 	require_once $_SERVER["DOCUMENT_ROOT"] . '/model/classes/Database.class.php';
 
 	try {
-		User::send_account_retrieval($_POST['email'], unserialize($_SESSION['db']), "http://localhost:8080/control/account/receiveaccountretrieval.php");
+		User::send_account_retrieval($_POST['email'], unserialize($_SESSION['db']), "http://localhost:8080/view/layout/accountretrieval.php");
 		header('Location: ../../view/layout/home.php');
 	} catch (Exception $e) {
 

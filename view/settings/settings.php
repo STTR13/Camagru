@@ -58,8 +58,6 @@
 	</form>
 </div>
 
-<script type="text/javascript" src="../../view/settings/settings.js"></script>
-
 <?php
 	}
 ?>
