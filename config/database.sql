@@ -29,6 +29,22 @@ CREATE TABLE IF NOT EXISTS `account_verification` (
 
 
 
+CREATE TABLE IF NOT EXISTS `account_retrieval_requests` (
+	`account_retrieval_request_key` INT UNSIGNED NOT NULL,
+	`id_user` INT UNSIGNED UNIQUE NOT NULL,
+
+	UNIQUE KEY (`account_retrieval_request_key`, `id_user`),
+
+	FOREIGN KEY (`id_user`)
+    REFERENCES `user`(`id_user`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+
+
+
+
 -- CREATE TABLE IF NOT EXISTS `cookie` (
 --   `id_cookie` INT UNSIGNED AUTO_INCREMENT NOT NULL,
 --   `id_user` INT UNSIGNED,

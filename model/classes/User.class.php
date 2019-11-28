@@ -211,6 +211,55 @@
 
 
 		/*
+		** -------------------- Account retrieval --------------------
+		*/
+		public static function send_account_retrieval($email, $db, $server_url)
+		{
+			if (!User::is_valid_email($email)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid email.", 1);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid db object.", 2);
+			}
+			
+			// query from database to make sure the email is linked with a user
+			$query = "SELECT id_user FROM user WHERE email = :m;";
+			$db->query($query, array(':m' => $email));
+			$row = $db->fetch();
+			if ($row === false) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Email not found in database.", 1);
+			}
+
+			$id_user = $row['id_user'];
+
+			// query to remove the other account_retrieval_requests sent by this user
+			$query = 'DELETE FROM account_retrieval_requests WHERE id_user = :idu;';
+			$db->query($query, array(':idu' => $id_user));
+
+			// query to add an account_retrieval_request to the db
+			$query = 'INSERT INTO account_retrieval_requests (account_retrieval_request_key, id_user) VALUES ((SELECT FLOOR(RAND()*1000000000000000) AS random_key), :idu);';
+			$db->query($query, array(':idu' => $id_user));
+
+			// query to retrieve the account_retrieval_request_key
+			$query = 'SELECT account_retrieval_request_key FROM account_retrieval_requests WHERE id_user = :idu;';
+			$db->query($query, array(':idu' => $id_user));
+			$row = $db->fetch();
+			if ($row === false) {
+				throw new DatabaseException("Failed running " . __METHOD__ . ". Key not pulled from db.");
+			}
+
+			$account_retrieval_request_key = $row['account_retrieval_request_key'];
+
+			send_mail(
+				$id_user,
+				$db,
+				"INSTO: account retrieval link.",
+				$server_url . '?a=' . $id_user . '&b=' . $account_retrieval_request_key
+			);
+		}
+
+
+		/*
 		** -------------------- Set --------------------
 		*/
 		public function set_pseudo($new)

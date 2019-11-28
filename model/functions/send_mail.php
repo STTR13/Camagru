@@ -17,12 +17,19 @@
 	}
 
 	function send_mail3($usr, $subject , $message) {
+		if (!User::is_valid($usr)) {
+			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid user.", 1);
+		}
+
 		return mail($usr->get_email(), $subject , wordwrap($message,70), "From: mydumbwebsite@insto.com");
 	}
 
 	function send_mail4($id_user, $db, $subject , $message) {
+		if (!User::is_valid_id($id_user)) {
+			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid user id object.", 1);
+		}
 		if (!Database::is_valid($db)) {
-			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.", 42);
+			throw new InvalidParamException("Failed running " . __FUNCTION__ . ". Invalid db object.", 2);
 		}
 
 		$query = 'SELECT email FROM user WHERE id_user = :id;';
