@@ -198,7 +198,15 @@
 		}
 		public function is_validated_account()
 		{
-			
+			$query = 'SELECT account_verification_key FROM account_verification WHERE id_user = :idu;';
+			$this->_db->query($query, array(':idu' => $this->get_id()));
+			$row = $this->_db->fetch();
+			if ($row === false) {
+				// if no row dedicated to this user in account_verification_key
+				return true;
+			}
+			// if there is
+			return false;
 		}
 
 

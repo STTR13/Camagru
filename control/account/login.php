@@ -6,14 +6,24 @@
 
 	try {
 		$usr = new User($_POST['pseudo'], hash_password($_POST['password']), unserialize($_SESSION['db']));
-		$_SESSION['user'] = serialize($usr);
-		header('Location: ../../view/layout/home.php');
+		if ($usr->is_validated_account()) {
+			$_SESSION['user'] = serialize($usr);
+			header('Location: ../../view/layout/home.php');
+		} else {
+
+			?><script type='text/javascript'>
+				alert("You need to confirm your account by clicking on the link we've sent you by mail");
+				window.location.href='../../index.php';
+			</script><?php
+
+		}
+
 	} catch (Exception $e) {
 
 		?><script type='text/javascript'>
 			alert('<?= $e ?>');
-			window.location.href='../../view/layout/index.php';
+			window.location.href='../../index.php';
 		</script><?php
 
-	}//ni: link cookie
+	}
 ?>
