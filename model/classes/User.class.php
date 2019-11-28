@@ -156,7 +156,8 @@
 		/*
 		** -------------------- Account verification --------------------
 		*/
-		public function send_account_verification_request($server_url) {
+		public function send_account_verification_request($server_url)
+		{
 			$query = 'INSERT INTO account_verification (account_verification_key, id_user) VALUES ((SELECT FLOOR(RAND()*1000000000000000) AS random_key), :idu);';
 			$this->_db->query($query, array(':idu' => $this->_id));
 			$query = 'SELECT account_verification_key FROM account_verification WHERE id_user = :idu;';
@@ -172,11 +173,32 @@
 				$server_url . '?a=' . $this->get_id() . '&b=' . $row['account_verification_key']
 			);
 		}
-		public function receive_account_verification_request($a, $b) {
+		public static function receive_account_verification_request($a, $b, $db)
+		{
+			if (!User::is_valid_id($a)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid a param.", 1);
+			}
+			if (!preg_match("/^[1-9][0-9]*$/", $b)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid b param.", 2);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed running " . __METHOD__ . ". Invalid db object.", 3);
+			}
 
+			// delete account_verification entry from database
+			$query = 'DELETE FROM account_verification WHERE account_verification_key = :key AND id_user = :idu;';
+			$db->query($query, array(':idu' => $a, ':key' => $b));
+			$modified_row_count = $db->rowCount();
+			if ($modified_row_count !== 1) {
+				throw new InvalidParamException("Account verification failed. a-b combination not found in database.");
+			}
+
+			// return the user to log him in
+			return new User($a, $db);
 		}
-		public function is_validated_account() {
-
+		public function is_validated_account()
+		{
+			
 		}
 
 
