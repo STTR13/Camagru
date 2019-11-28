@@ -48,30 +48,30 @@
 			}
 		}
 
-		// private function __construct2($id_cookie, $db)
-		// {
-		// 	// test parameters validity
-		// 	if (!User::is_valid_id($id_cookie)) {
-		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.", 21);
-		// 	}
-		// 	if (!Database::is_valid($db)) {
-		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.", 22);
-		// 	}
-		//
-		// 	// query from database
-		// 	$query = "SELECT user.id_user, pseudo, email FROM user JOIN cookie ON cookie.id_user = user.id_user WHERE id_cookie = :idc;";
-		// 	$db->query($query, array(':idc' => $id_cookie));
-		// 	$row = $db->fetch();
-		// 	if ($row === false) {
-		// 		throw new InvalidParamException("Failed constructing " . __CLASS__ . ". id_cookie not found in database.", 30);
-		// 	}
-		//
-		// 	// set object properties
-		// 	$this->_id = $row['id_user'];
-		// 	$this->_pseudo = $row['pseudo'];
-		// 	$this->_email = $row['email'];
-		// 	$this->_db = $db;
-		// }
+		private function __construct2($id_user, $db)
+		{
+			// test parameters validity
+			if (!User::is_valid_id($id_user)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid id.", 21);
+			}
+			if (!Database::is_valid($db)) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". Invalid db object.", 22);
+			}
+
+			// query from database
+			$query = "SELECT pseudo, email FROM user WHERE id_user = :idu;";
+			$db->query($query, array(':idu' => $id_user));
+			$row = $db->fetch();
+			if ($row === false) {
+				throw new InvalidParamException("Failed constructing " . __CLASS__ . ". id_user not found in database.", 30);
+			}
+
+			// set object properties
+			$this->_id = $id_user;
+			$this->_pseudo = $row['pseudo'];
+			$this->_email = $row['email'];
+			$this->_db = $db;
+		}
 
 		private function __construct3($pseudo, $hashed_password, $db)
 		{
