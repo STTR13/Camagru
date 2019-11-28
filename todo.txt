@@ -8,5 +8,7 @@ x email settings
 x index on server root
 x setup file
 x cookies testing
+x mail comment confirm and pw
 
-. mail comment confirm and pw
+. petit changement layout de la page settings
+. relire fichier de correction
