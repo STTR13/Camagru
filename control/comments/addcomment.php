@@ -7,7 +7,7 @@
 
 	try {
 		$picture = new Picture($_POST['picture_id'], unserialize($_SESSION['db']));
-		$picture->add_comment(unserialize($_SESSION['user']), $_POST['content']);
+		$picture->add_comment(unserialize($_SESSION['user']), htmlspecialchars($_POST['content']));
 
 		send_mail(
 			$picture->get_user_id(),
