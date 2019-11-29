@@ -50,12 +50,14 @@
 	</div>
 	<form class="container" action="../../control/settings/updatepassword.php" method="post">
 
+		<input type="text" name="email" value="<?= $usr->get_pseudo() ?>" autocomplete="username" style="display: none;">
+
 		<div class="row head-info" style="padding-bottom: 0px;">
 			<div class="col-sm-3" style="text-align: right;">
 				<div>Current:</div>
 			</div>
 			<div class="col-sm">
-				<input type="password" name="old" value="" style="border: none; width: 100%;">
+				<input type="password" name="old" value="" autocomplete="current-password" style="border: none; width: 100%;">
 			</div>
 		</div>
 
@@ -64,7 +66,7 @@
 				<div>New:</div>
 			</div>
 			<div class="col-sm">
-				<input type="password" name="new" value="" style="border: none; width: 100%;">
+				<input type="password" name="new" value="" autocomplete="new-password" style="border: none; width: 100%;">
 			</div>
 		</div>
 
@@ -73,7 +75,7 @@
 				<div>Confirm:</div>
 			</div>
 			<div class="col-sm">
-				<input type="password" name="conf" value="" style="border: none; width: 100%;">
+				<input type="password" name="conf" value="" autocomplete="new-password" style="border: none; width: 100%;">
 			</div>
 		</div>
 

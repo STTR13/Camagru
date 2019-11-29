@@ -8,10 +8,10 @@
 	<form action="../../control/account/login.php" class="head-info" method="post">
 		<h3 style="text-align: center; color: black;">Log-in</h3>
 		Pseudo:<br>
-		<input type="text" name="pseudo" value="" style="border: none; width: 100%;">
+		<input type="text" name="pseudo" value="" autocomplete="username" style="border: none; width: 100%;">
 		<br>
 		Password:<br>
-		<input type="password" name="password" value="" style="border: none; width: 100%;">
+		<input type="password" name="password" value="" autocomplete="current-password" style="border: none; width: 100%;">
 		<br>
 		<div style="text-align: right;">
 			<a onclick="to_retrievepw()" style="font-size: 0.6em; color: #b5b6b6; cursor: pointer;">Forgot my password</a>
@@ -28,15 +28,15 @@
 	<form action="../../control/account/create.php" class="head-info" method="post">
 		<h3 style="text-align: center; color: black;">Create an account</h3>
 		Pseudo:<br>
-		<input type="text" name="pseudo" value="" style="border: none; width: 100%;">
+		<input type="text" name="pseudo" value="" autocomplete="username" style="border: none; width: 100%;">
 		Email:<br>
-		<input type="text" name="email" value="" style="border: none; width: 100%;">
+		<input type="text" name="email" value="" autocomplete="email" style="border: none; width: 100%;">
 		<br>
 		Password:<br>
-		<input type="password" name="password" value="" style="border: none; width: 100%;">
+		<input type="password" name="password" value="" autocomplete="new-password" style="border: none; width: 100%;">
 		<br>
 		Confirm password:<br>
-		<input type="password" name="confirm_password" value="" style="border: none; width: 100%;">
+		<input type="password" name="confirm_password" value="" autocomplete="new-password" style="border: none; width: 100%;">
 		<br><br>
 		<div style="text-align: center;">
 			<input type="submit" value="Submit" class="insto-button">
@@ -49,7 +49,7 @@
 	<form action="../../control/account/sendaccountretrieval.php" class="head-info" method="post">
 		<h3 style="text-align: center; color: black;">Retrieve your password</h3>
 		Email:<br>
-		<input type="text" name="email" value="" style="border: none; width: 100%;">
+		<input type="text" name="email" value="" autocomplete="email" style="border: none; width: 100%;">
 		<br>
 		<br>
 		<div style="text-align: center; color: #b5b6b6; ">
