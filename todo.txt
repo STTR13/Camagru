@@ -14,4 +14,4 @@ x relire fichier de correction
 x petit changement layout de la page settings
 x password quality
 . sanitize all inputs
-. vérifier qu'aucune erreur n'est émise
+x vérifier qu'aucune erreur n'est émise
