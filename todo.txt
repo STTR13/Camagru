@@ -9,6 +9,9 @@ x index on server root
 x setup file
 x cookies testing
 x mail comment confirm and pw
+x relire fichier de correction
 
-. petit changement layout de la page settings
-. relire fichier de correction
+x petit changement layout de la page settings
+x password quality
+. sanitize all inputs
+. vérifier qu'aucune erreur n'est émise

@@ -13,6 +13,9 @@
 	}
 
 	try {
+		if (!User::is_valid_password($_POST['password'])) {
+			throw new InvalidParamException("Creating User. Your password is probably not secure enough. It has to be between 12 and 64 characters long.");
+		}
 		$usr = new User($_POST['pseudo'], $_POST['email'], hash_password($_POST['password']), unserialize($_SESSION['db']));
 		$usr->send_account_verification_request("http://localhost:8080/control/account/confirm.php");
 		header('Location: ../../view/layout/home.php');

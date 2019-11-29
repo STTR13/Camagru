@@ -60,26 +60,6 @@
 		}
 	}
 
-	if ($_POST['oldpw'] != '' && $_POST['newpw'] != '') {
-		// echo "came here 3";
-		try {
-			if (!$usr->is_correct_password(hash_password($_POST['oldpw']))) {
-				throw new InvalidParamException("Fail setting password. Wrong old password.");
-			}
-			$usr->set_password(hash_password($_POST['newpw']));
-		} catch (Exception $e) {
-			$b = true;
-
-			?><script type='text/javascript'>
-				alert('<?= $e ?>');
-				window.location.href='../../view/layout/settings.php';
-			</script><?php
-
-		} finally {
-			$_SESSION['user'] = serialize($usr);
-		}
-	}
-
 	if (!$b) {
 		header('Location: ../../view/layout/settings.php');
 	}

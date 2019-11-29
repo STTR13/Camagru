@@ -387,7 +387,7 @@
 		}
 		public static function is_valid_password($password)
 		{
-			$patern = "/^.{8,64}$/";
+			$patern = "/^.{12,64}$/";
 			return preg_match($patern, $password) ? TRUE : FALSE;
 		}
 		public static function is_valid_hashed_password($password)

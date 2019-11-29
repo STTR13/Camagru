@@ -8,12 +8,12 @@
 ?>
 <div class="post">
 	<div class="head-info" style="padding-bottom: 0px;">
-		<h3 style="text-align: center; color: black;">Settings</h3>
+		<h3 style="text-align: center; color: black;">Your informations</h3>
 	</div>
-	<form class="container" action="../../control/settings/updatesettings.php" method="post">
+	<form class="container" action="../../control/settings/updateinformations.php" method="post">
 
 		<div class="row head-info" style="padding-bottom: 0px;">
-			<div class="col-sm-2" style="text-align: right;">
+			<div class="col-sm-3" style="text-align: right;">
 				<div>Pseudo:</div>
 			</div>
 			<div class="col-sm">
@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="row head-info" style="padding-bottom: 0px;">
-			<div class="col-sm-2" style="text-align: right;">
+			<div class="col-sm-3" style="text-align: right;">
 				<div>Email:</div>
 			</div>
 			<div class="col-sm">
@@ -31,29 +31,54 @@
 		</div>
 
 		<div class="row head-info" style="padding-bottom: 0px; padding-top: 3px;">
-			<div class="col-sm-2" style="text-align: right;"></div>
+			<div class="col-sm-3" style="text-align: right;"></div>
 			<div class="col-sm" style="text-align: left;">
 				<input type="checkbox" name="emailpref" <?php if ($usr->get_pref_mail_notifications()) { ?>checked<?php } ?> style="display: inline;">
 				<div style="display: inline; font-size: 0.7em; color: #b5b6b6;">Receive news by email</div>
 			</div>
 		</div>
 
+		<div style="text-align: center;" class="head-info">
+			<input type="submit" value="save changes" class="insto-button">
+		</div>
+	</form>
+</div>
+
+<div class="post">
+	<div class="head-info" style="padding-bottom: 0px;">
+		<h3 style="text-align: center; color: black;">Your password</h3>
+	</div>
+	<form class="container" action="../../control/settings/updatepassword.php" method="post">
+
 		<div class="row head-info" style="padding-bottom: 0px;">
-			<div class="col-sm-2" style="text-align: right;">
-				<div>Password:</div>
+			<div class="col-sm-3" style="text-align: right;">
+				<div>Current:</div>
 			</div>
-			<div class="col-sm" style="text-align: right;">
-				<div style="padding-bottom: 16px;">
-					old: <input type="password" name="oldpw" value="" style="border: none; width: 80%">
-				</div>
-				<div>
-					new: <input type="password" name="newpw" value="" style="border: none; width: 80%">
-				</div>
+			<div class="col-sm">
+				<input type="password" name="old" value="" style="border: none; width: 100%;">
+			</div>
+		</div>
+
+		<div class="row head-info" style="padding-bottom: 0px;">
+			<div class="col-sm-3" style="text-align: right;">
+				<div>New:</div>
+			</div>
+			<div class="col-sm">
+				<input type="password" name="new" value="" style="border: none; width: 100%;">
+			</div>
+		</div>
+
+		<div class="row head-info" style="padding-bottom: 0px;">
+			<div class="col-sm-3" style="text-align: right;">
+				<div>Confirm:</div>
+			</div>
+			<div class="col-sm">
+				<input type="password" name="conf" value="" style="border: none; width: 100%;">
 			</div>
 		</div>
 
 		<div style="text-align: center;" class="head-info">
-			<input type="submit" value="save changes" class="insto-button">
+			<input type="submit" value="update password" class="insto-button">
 		</div>
 	</form>
 </div>
